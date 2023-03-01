@@ -1,0 +1,181 @@
+.form-container {
+  border: 1px solid #72767e;
+}
+input,
+.select-policy {
+  display: block;
+  box-sizing: border-box;
+  border-radius: 10px !important;
+  border: 1px solid #000000;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  min-width: 350px;
+  height: 53px;
+  color: #00000066;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
+}
+.addPolicy-container {
+  padding: 20px;
+  padding-bottom: 12px;
+}
+
+.devider {
+  border: 1px solid #72767e;
+}
+.policy-form {
+  padding: 20px;
+}
+label {
+  line-height: 2;
+  text-align: left;
+  display: block;
+  margin-bottom: 8px;
+  /* margin-top: 20px; */
+  font-size: 14px;
+  color: #000000;
+  font-weight: 500;
+}
+.select-policy .MuiSelect-select {
+  padding: unset;
+  color: #00000066;
+}
+.select-policy fieldset {
+  border: none;
+}
+.select-policy span {
+  border: none;
+  font-size: 14px;
+}
+.select-policy-container {
+  margin: unset !important;
+  margin-top: unset;
+}
+textarea {
+  width: 100% !important;
+  height: 83px !important;
+  resize: unset;
+  background: #fcfcfc;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid;
+  border-radius: 10px !important;
+  font-size: 14px;
+  color: #00000066;
+  font-family: unset !important;
+  padding: 15px;
+}
+.country-row input {
+  min-width: 250px;
+}
+.policy-doc input {
+  min-width: 440px;
+}
+.box-btn {
+  display: flex;
+  align-items: center;
+}
+.box-btn {
+  display: flex;
+  align-items: center;
+}
+.addicon,
+.clearIcon {
+  background: #013f7c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 10px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+.addicon svg,
+.clearIcon svg {
+  fill: #fff;
+}
+.Geofence {
+  border: 1px solid #72767e;
+  padding: 20px;
+}
+.Geofence-inrr {
+  display: flex;
+  align-items: center;
+  border: 1px dashed;
+  width: 302px;
+  padding: 15px;
+  border-radius: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  color: #013067;
+}
+.Geofence-inrr svg {
+  font-size: 20px;
+}
+.Rules {
+  border: 1px solid #72767e;
+  padding: 20px;
+}
+.Rules > textarea {
+  height: 313px !important;
+}
+.footer-btn {
+  display: flex;
+  align-items: center;
+}
+.footer-btn .back {
+  margin-right: 30px;
+}
+.footer-btn .back,
+.footer-btn .save {
+  border: 1px solid #004e92;
+  padding: 10px 100px;
+  text-align: center;
+}
+.applicable-tab .applicable-policy {
+  min-width: 218px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #000000;
+}
+.applicable-tab .applicable-policy fieldset {
+  border: none;
+}
+.footer-btn .save {
+  background: linear-gradient(92.12deg, #004e92 0.11%, #000428 99.81%);
+  color: #fff;
+}
+
+@media screen and (min-width: 678px) and (max-width: 1024px) {
+  .row-form,
+  .country-row,
+  .footer-btn,
+  .policy-doc {
+    display: block !important;
+  }
+  input,
+  .select-policy {
+    min-width: 100%;
+  }
+  .select-policy {
+    max-width: 100% !important;
+    min-width: 412px;
+  }
+
+  .country-row input {
+    min-width: 100%;
+  }
+
+  .policy-doc input {
+    min-width: 70%;
+  }
+  .policy-doc {
+    width: 100% !important;
+  }
+  .footer-btn .back {
+    margin-right: unset;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+}
