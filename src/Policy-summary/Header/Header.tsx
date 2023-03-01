@@ -34,13 +34,7 @@ function ResponsiveAppBar() {
       className="appbar"
     >
       <Container maxWidth="xl">
-        <Toolbar
-          disableGutters
-          sx={{
-            display: { xs: "none", md: "flex" },
-            justifyContent: { xs: "none", md: "space-between" },
-          }}
-        >
+        <Toolbar disableGutters>
           <Box>
             <Typography
               variant="h6"
@@ -49,7 +43,6 @@ function ResponsiveAppBar() {
               href="/"
               sx={{
                 mr: 2,
-                display: { xs: "none", md: "flex" },
                 fontWeight: 600,
                 color: "#000000",
                 textDecoration: "none",

@@ -109,12 +109,12 @@ export default function ResponsiveDrawer(props: Props) {
             justifyContent: "space-between",
           }}
         >
-          {/* <Card />
+          <Card />
           <Card />
           <Card />
 
-          <Tabs /> */}
-          <Form />
+          <Tabs />
+          {/* <Form /> */}
         </Box>
       </Box>
     </Box>

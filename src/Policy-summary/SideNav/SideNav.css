@@ -30,17 +30,4 @@
   .css-6ld0yo-MuiDrawer-docked .MuiDrawer-paper {
     width: 140px;
   }
-  .css-pyigye-MuiTypography-root {
-    font-size: 14px !important;
-    padding: 10px !important;
-  }
-  .list-btn:hover .list-text > span,
-  .list-btn.active .list-text > span {
-    font-weight: 700 !important;
-    font-size: 12px !important;
-  }
-  .list-btn:hover,
-  .list-btn.active {
-    height: 30px;
-  }
 }

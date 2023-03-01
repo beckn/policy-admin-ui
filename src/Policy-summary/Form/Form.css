@@ -138,6 +138,7 @@ textarea {
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
   border: 1px solid #000000;
+  height: 53px;
 }
 .applicable-tab .applicable-policy fieldset {
   border: none;
@@ -172,6 +173,59 @@ textarea {
   }
   .policy-doc {
     width: 100% !important;
+  }
+  .footer-btn .back {
+    margin-right: unset;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+}
+@media screen and (min-width: 1025px) and (max-width: 1225px) {
+  input,
+  .select-policy {
+    min-width: 200px;
+  }
+  .select-policy {
+    min-width: 240px;
+    width: 200px !important;
+  }
+  .select-policy-container {
+    width: 240px !important;
+  }
+  .country-row input {
+    min-width: 200px;
+  }
+  .country-row {
+    flex-wrap: wrap;
+  }
+
+  .policy-doc input {
+    min-width: 70%;
+  }
+
+  .footer-btn .back {
+    margin-right: unset;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+}
+@media screen and (min-width: 1225px) and (max-width: 1480px) {
+  input,
+  .select-policy {
+    min-width: 280px;
+    max-width: 300px;
+  }
+  .select-policy {
+    max-width: 100% !important;
+    min-width: 280px;
+  }
+
+  .country-row input {
+    min-width: 100%;
+  }
+
+  .policy-doc {
+    width: 80% !important;
   }
   .footer-btn .back {
     margin-right: unset;
