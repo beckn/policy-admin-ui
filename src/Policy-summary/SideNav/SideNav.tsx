@@ -13,6 +13,8 @@ import "./SideNav.css";
 import Card from "../Card/Card";
 import Tabs from "../Tabs/Tabs";
 import Form from "../Form/Form";
+import Geofencing from "../Geofencing /Geofencing";
+import PolicyModal from "../Policy-modal/PolicyModal";
 
 const drawerWidth = 262;
 
@@ -109,12 +111,21 @@ export default function ResponsiveDrawer(props: Props) {
             justifyContent: "space-between",
           }}
         >
-          <Card />
+          {/* <Card />
           <Card />
           <Card />
 
           <Tabs />
-          {/* <Form /> */}
+          <Form /> */}
+          {/* <Geofencing /> */}
+          <PolicyModal
+            modalIcon="/assets/Created.svg"
+            policyTitle={"Policy has been created!"}
+            policySubTitle={
+              "Policy activation was a success. Your policy will take effect once it has been ‘Published’. "
+            }
+            policyButtonText={"Okay"}
+          />
         </Box>
       </Box>
     </Box>
