@@ -14,12 +14,13 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useForm, SubmitHandler } from "react-hook-form";
-import SwitchBtn from "./SwitchBtn";
-import "./Form.css";
+import SwitchBtn from "../../Components/Switch/SwitchBtn";
+import "./CreatePolicyForm.css";
 import { useState } from "react";
 import { Calendar } from "react-date-range";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
+import { Link } from "react-router-dom";
 
 type Inputs = {
   example: string;
@@ -38,7 +39,7 @@ const names = [
   "Kelly Snyder",
 ];
 
-const Form = () => {
+const CreatePolicyForm = () => {
   const {
     register,
     handleSubmit,
@@ -105,10 +106,7 @@ const Form = () => {
           >
             <Box>
               <label>Policy Name</label>
-              <input
-                defaultValue="Enter Policy Name"
-                {...register("example")}
-              />
+              <input placeholder="Enter Policy Name" {...register("example")} />
             </Box>
             <Box>
               <label>Policy Type</label>
@@ -148,7 +146,7 @@ const Form = () => {
             <Box>
               <label>Policy Owner</label>
               <input
-                defaultValue="Enter Policy Owner Name"
+                placeholder="Enter Policy Owner Name"
                 {...register("exampleRequired", { required: true })}
               />
               {errors.exampleRequired && <span>This field is required</span>}
@@ -169,14 +167,14 @@ const Form = () => {
             <Box>
               <label>Country</label>
               <input
-                defaultValue="Enter country name"
+                placeholder="Enter country name"
                 {...register("example")}
               />
             </Box>
             <Box>
               <label>City</label>
               <input
-                defaultValue={"Enter city name"}
+                placeholder="Enter city name"
                 {...register("exampleRequired", { required: true })}
               />
 
@@ -186,7 +184,7 @@ const Form = () => {
               <label>From</label>
               <input
                 onClick={dateHandler}
-                defaultValue="Select ‘from’ date "
+                placeholder="Select ‘from’ date "
                 {...register("exampleRequired", { required: true })}
               />
               {open ? <Calendar date={new Date()} /> : null}
@@ -195,7 +193,7 @@ const Form = () => {
             <Box>
               <label>To</label>
               <input
-                defaultValue="Select ‘from’ date "
+                placeholder="Select ‘to’ date "
                 {...register("exampleRequired", { required: true })}
               />
               {errors.exampleRequired && <span>This field is required</span>}
@@ -278,7 +276,9 @@ const Form = () => {
         <label>Geofence</label>
         <Box className={"Geofence-inrr"}>
           <AddIcon />
-          <span>Draw geofence on a map</span>
+          <Link style={{ textDecoration: "none" }} to="/createGeoFence">
+            <span>Draw geofence on a map</span>
+          </Link>
         </Box>
       </Box>
       <Box className={"Rules"} mt={3.5}>
@@ -292,4 +292,4 @@ const Form = () => {
     </Box>
   );
 };
-export default Form;
+export default CreatePolicyForm;

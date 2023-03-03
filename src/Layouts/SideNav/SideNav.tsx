@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Outlet } from "react-router-dom";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
@@ -7,15 +8,16 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import Header from "../Header/Header";
 import { Container, Typography } from "@mui/material";
 import "./SideNav.css";
-import Card from "../Card/Card";
-import Tabs from "../Tabs/Tabs";
-import Form from "../Form/Form";
-import Geofencing from "../Geofencing /Geofencing";
-import PolicyModal from "../Policy-modal/PolicyModal";
+import Header from "../Header/Header";
 import Table from "../../Components/Table/Table";
+import Card from "../../Components/Card/Card";
+import DashboardTabs from "../../PolicyManagement/DashboardTabs/DashboardTabs";
+import CreatePolicyForm from "../../PolicyManagement/CreatePolicy/CreatePolicyForm";
+import Geofencing from "../../PolicyManagement/Geofencing /Geofencing";
+import PolicyModal from "../../Components/Policy-modal/PolicyModal";
+
 
 const drawerWidth = 262;
 
@@ -112,24 +114,7 @@ export default function ResponsiveDrawer(props: Props) {
             justifyContent: "space-between",
           }}
         >
-          {/* <Card />
-          <Card />
-          <Card />
-
-          <Tabs />
-          <Form /> */}
-          {/* <Geofencing /> */}
-          {/* <PolicyModal
-            modalIcon="/assets/Created.svg"
-            policyTitle={"Policy has been created!"}
-            policySubTitle={
-              "Policy activation was a success. Your policy will take effect once it has been ‘Published’. "
-            }
-            policyButtonText={"Okay"}
-          /> */}
-          <Box width={"100%"}>
-            <Table />
-          </Box>
+         <Outlet />
         </Box>
       </Box>
     </Box>
