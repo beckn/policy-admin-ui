@@ -1,0 +1,26 @@
+.tabs .MuiTabs-flexContainer {
+  width: 380px;
+  display: flex;
+  justify-content: space-between;
+}
+.tab {
+  padding: unset !important;
+  max-width: unset !important;
+  min-width: unset !important;
+  font-size: 16px !important;
+  text-transform: none !important;
+}
+.tab.Mui-selected {
+  color: #000 !important;
+  font-weight: 700;
+}
+.css-1aquho2-MuiTabs-indicator {
+  background-color: #000 !important;
+}
+.createPolicy {
+  display: flex;
+  color: #013b76 !important;
+}
+.tab-container p {
+  display: grid;
+}

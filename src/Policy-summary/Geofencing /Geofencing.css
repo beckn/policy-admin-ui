@@ -1,0 +1,21 @@
+.geofencing-container {
+  width: 100%;
+}
+.footer-geofencing-btn {
+  display: flex;
+  justify-content: center;
+}
+.footer-geofencing-btn .save {
+  background: linear-gradient(92.12deg, #004e92 0.11%, #000428 99.81%);
+  color: #fff;
+}
+
+.footer-geofencing-btn .back {
+  margin-right: 30px;
+}
+.footer-geofencing-btn .back,
+.footer-geofencing-btn .save {
+  border: 1px solid #004e92;
+  padding: 10px 100px;
+  text-align: center;
+}

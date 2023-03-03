@@ -1,0 +1,33 @@
+.custom-drawer {
+  background: linear-gradient(176.66deg, #004e92 1.26%, #000428 99.4%);
+  height: 100vh;
+  color: #ffff;
+}
+.drawer-devider {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff33;
+}
+.list-btn:hover,
+.list-btn.active {
+  border-radius: 20px 0px 0px 20px;
+  background-color: rgba(239, 234, 234, 0.2) !important;
+  height: 40px;
+}
+.list-btn:hover,
+.list-btn.active {
+  border-radius: 20px 0px 0px 20px;
+  background-color: rgba(239, 234, 234, 0.2) !important;
+  height: 40px;
+}
+.list-btn:hover .list-text > span,
+.list-btn.active .list-text > span {
+  font-weight: 700 !important;
+}
+.policy-wrapper {
+  max-width: 1600px;
+}
+@media screen and (min-width: 678px) and (max-width: 1024px) {
+  .css-6ld0yo-MuiDrawer-docked .MuiDrawer-paper {
+    width: 140px;
+  }
+}
