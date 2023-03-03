@@ -15,6 +15,7 @@ import Tabs from "../Tabs/Tabs";
 import Form from "../Form/Form";
 import Geofencing from "../Geofencing /Geofencing";
 import PolicyModal from "../Policy-modal/PolicyModal";
+import Table from "../../Components/Table/Table";
 
 const drawerWidth = 262;
 
@@ -118,14 +119,17 @@ export default function ResponsiveDrawer(props: Props) {
           <Tabs />
           <Form /> */}
           {/* <Geofencing /> */}
-          <PolicyModal
+          {/* <PolicyModal
             modalIcon="/assets/Created.svg"
             policyTitle={"Policy has been created!"}
             policySubTitle={
               "Policy activation was a success. Your policy will take effect once it has been ‘Published’. "
             }
             policyButtonText={"Okay"}
-          />
+          /> */}
+          <Box width={"100%"}>
+            <Table />
+          </Box>
         </Box>
       </Box>
     </Box>

@@ -1,53 +1,52 @@
-.MuiDataGrid-main{
-    width:1078px;
-  }
-  .MuiDataGrid-columnHeaders {
-    background: linear-gradient(
-      90.16deg,
-      rgba(0, 78, 146, 0.1) 1.48%,
-      rgba(0, 4, 40, 0.1) 100%
-    );
-    border-radius: 5px;
-    border-bottom: none !important;
-  }
-  .MuiDataGrid-iconSeparator {
-    display: none !important;
-  }
-  .MuiDataGrid-cell {
-    white-space: pre-wrap !important;
-    text-overflow: ellipsis !important;
-     display: -webkit-box !important;
-     -webkit-line-clamp: 3 !important;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-    display: flex;
-    align-items: center;
-    color: rgba(0, 0, 0, 0.6);
-    border-bottom: 1px dotted #004e92 !important;
-  }
-  .MuiDataGrid-root {
-    border: none !important;
-    font-weight: 500 !important;
-    font-size: 16px !important;
-    color: black !important;
-  }
-  .MuiDataGrid-cell [title="Active"] {
-    background: #70c679;
-    padding: 1px 8px 1px 8px;
-    border-radius: 3px;
-    color: #FFFFFF;
-  }
-  .MuiDataGrid-cell [title="Published"] {
-    background: #316496;
-    padding: 1px 8px 1px 8px;
-    border-radius: 3px;
-    color: #FFFFFF;
-  }
-  .MuiDataGrid-cell [title="Inactive"] {
-    background: #ef7979;
-    padding: 1px 8px 1px 8px;
-    border-radius: 3px;
-    color: #FFFFFF;
-  }
+.MuiDataGrid-columnHeaders {
+  background: linear-gradient(
+    90.16deg,
+    rgba(0, 78, 146, 0.1) 1.48%,
+    rgba(0, 4, 40, 0.1) 100%
+  );
+  border-radius: 5px;
+  border-bottom: none !important;
+}
+
+.MuiDataGrid-iconSeparator {
+  display: none !important;
+}
+.MuiDataGrid-cell {
+  white-space: pre-wrap !important;
+  text-overflow: ellipsis !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.6);
+  border-bottom: 1px dotted #004e92 !important;
+}
+
+.MuiDataGrid-root {
+  border: none !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  color: black !important;
+}
+.MuiDataGrid-cell [title="Active"] {
+  background: #70c679;
+  padding: 1px 8px 1px 8px;
+  border-radius: 3px;
+  color: #ffffff;
+}
+.MuiDataGrid-cell [title="Published"] {
+  background: #316496;
+  padding: 1px 8px 1px 8px;
+  border-radius: 3px;
+  color: #ffffff;
+}
+.MuiDataGrid-cell [title="Inactive"] {
+  background: #ef7979;
+  padding: 1px 8px 1px 8px;
+  border-radius: 3px;
+  color: #ffffff;
+}

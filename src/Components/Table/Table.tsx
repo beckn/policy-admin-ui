@@ -1,6 +1,8 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import "./Table.css";
 
@@ -76,32 +78,40 @@ const rows = [
   },
 ];
 
-function CustomUnsortedIcon() {
+function ColumnSortedDescendingIcon() {
+  return <ArrowDropDownIcon />;
+}
+function ColumnSortedAscendingIcon() {
+  return <ArrowDropUpIcon />;
+}
+function ColumnUnsortedIcon() {
   return <UnfoldMoreIcon />;
 }
 
 export default function Table() {
   return (
     <>
-      <span
+      <Box
         style={{
           fontSize: "18px",
           fontWeight: "600",
           color: "#000000",
-          lineHeight: "27px",
+          marginBottom: "20px",
         }}
       >
         All Policies (23)
-      </span>
-      <Box sx={{ height: 318, width: "80%" }}>
+      </Box>
+      <Box sx={{ height: 318 }}>
         <DataGrid
           rows={rows}
           columns={columns}
           hideFooter={true}
           autoHeight={true}
-          rowHeight={55}
+          rowHeight={64}
           components={{
-            ColumnUnsortedIcon: CustomUnsortedIcon,
+            ColumnUnsortedIcon: ColumnUnsortedIcon,
+            ColumnSortedAscendingIcon: ColumnSortedAscendingIcon,
+            ColumnSortedDescendingIcon: ColumnSortedDescendingIcon,
           }}
           sx={{
             ".MuiDataGrid-iconButtonContainer": {
