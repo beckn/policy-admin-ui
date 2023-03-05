@@ -6,8 +6,8 @@ input,
   display: block;
   box-sizing: border-box;
   border-radius: 10px !important;
-  border: 1px solid #000000;
-  padding: 10px 15px;
+  border: 1px solid #004e924d !important;
+  padding: 10px 15px !important;
   margin-bottom: 10px;
   font-size: 14px;
   min-width: 350px;
@@ -32,7 +32,7 @@ label {
   display: block;
   margin-bottom: 8px;
   /* margin-top: 20px; */
-  font-size: 14px;
+  font-size: 14px !important;
   color: #000000;
   font-weight: 500;
 }
@@ -57,7 +57,7 @@ textarea {
   resize: unset;
   background: #fcfcfc;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
-  border: 1px solid;
+  border: 1px solid #004e924d;
   border-radius: 10px !important;
   font-size: 14px;
   color: #00000066;
@@ -122,7 +122,6 @@ textarea {
 }
 .footer-btn {
   display: flex;
-  align-items: center;
 }
 .footer-btn .back {
   margin-right: 30px;
@@ -130,14 +129,15 @@ textarea {
 .footer-btn .back,
 .footer-btn .save {
   border: 1px solid #004e92;
-  padding: 10px 100px;
+  height: 40px;
+  width: 230px;
   text-align: center;
 }
 .applicable-tab .applicable-policy {
   min-width: 218px;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
-  border: 1px solid #000000;
+  border: 1px solid #004e924d;
   height: 53px;
 }
 .applicable-tab .applicable-policy fieldset {
@@ -147,11 +147,37 @@ textarea {
   background: linear-gradient(92.12deg, #004e92 0.11%, #000428 99.81%);
   color: #fff;
 }
+.css-1xhypcz-MuiStack-root {
+  padding-top: unset !important;
+}
+.date-start {
+  height: 53px;
+}
+.date-start input {
+  min-width: 218px;
+}
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+  height: 31px !important;
+  border-radius: 10px !important;
+}
+.MuiInputAdornment-root {
+  position: absolute;
+  right: 20px;
+}
+fieldset {
+  border: unset !important;
+}
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  padding-right: unset !important;
+}
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused,
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
+  display: none !important;
+}
 
 @media screen and (min-width: 678px) and (max-width: 1024px) {
   .row-form,
   .country-row,
-  .footer-btn,
   .policy-doc {
     display: block !important;
   }
@@ -175,9 +201,11 @@ textarea {
     width: 100% !important;
   }
   .footer-btn .back {
-    margin-right: unset;
-    margin-bottom: 15px;
     text-align: center;
+    margin-bottom: 10px;
+  }
+  .date-start input {
+    min-width: 218px;
   }
 }
 @media screen and (min-width: 1025px) and (max-width: 1225px) {
@@ -204,8 +232,6 @@ textarea {
   }
 
   .footer-btn .back {
-    margin-right: unset;
-    margin-bottom: 15px;
     text-align: center;
   }
 }
@@ -225,11 +251,12 @@ textarea {
   }
 
   .policy-doc {
-    width: 80% !important;
+    width: 82% !important;
   }
   .footer-btn .back {
-    margin-right: unset;
-    margin-bottom: 15px;
     text-align: center;
+  }
+  .date-start input {
+    min-width: 80%;
   }
 }

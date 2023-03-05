@@ -61,18 +61,18 @@ function Geofencing() {
   return (
     <Box className="geofencing-container">
       <Typography>* Please click on points to create polygon</Typography>
-      <Box height={"700px"}>
+      <Box height={"660px"} position="relative" width="100%">
         {isLoaded && (
           <div>
-            <button onClick={handleClearPolygon}>Clear Polygon</button>
             <GoogleMap
               center={position}
               zoom={8}
               mapContainerStyle={{
-                height: "400px",
+                height: "660px",
                 width: "100%",
                 position: "absolute",
                 borderRadius: "10px",
+                overflow: "auto",
               }}
               options={{
                 zoomControl: true,
@@ -98,7 +98,12 @@ function Geofencing() {
           </div>
         )}
       </Box>
-      <Box className={"footer-geofencing-btn"} mt={3.5}>
+      <Box className={"footer-geofencing-btn"} mt={2}>
+        <Box className={"save"} onClick={handleClearPolygon}>
+          Clear Polygon
+        </Box>
+      </Box>
+      <Box className={"footer-geofencing-btn"} mt={2}>
         <Box className={"back"}>Go back</Box>
         <Box
           component={"div"}
