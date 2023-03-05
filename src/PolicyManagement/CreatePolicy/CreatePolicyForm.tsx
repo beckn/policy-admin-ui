@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import {
@@ -17,46 +17,111 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import SwitchBtn from "../../Components/Switch/SwitchBtn";
 import "./CreatePolicyForm.css";
 import { useState } from "react";
-import { Calendar } from "react-date-range";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Link } from "react-router-dom";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { convertUtcToYYMMDD } from "../../Common/Common.utils";
+import { usePolicyForm } from "../../Store/PolicyStore";
+import {
+  anotherNames,
+  IFormInput,
+  policyTypes,
+} from "./CreatePolicyForm.utils";
+import axios from "axios";
 
-type Inputs = {
-  example: string;
-  exampleRequired: string;
-};
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
+const apiUrl = process.env.REACT_APP_API_KEY as string;
 
 const CreatePolicyForm = () => {
   const {
     register,
     handleSubmit,
     watch,
+    getValues,
     formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-  const [inputList, setInputList] = useState([{ add: "", cross: "" }]);
+  } = useForm<IFormInput>();
 
+  const [inputList, setInputList] = useState([{ add: "", cross: "" }]);
   const [personName, setPersonName] = useState<string[]>([]);
-  const [open, setOpen] = useState(false);
+  const [applicableToValues, setApplicableToValues] = useState([]);
+  const [policyType, setPolicyType] = useState<string>("");
+  const [isPolicyActivated, setIsPolicyActivated] = useState(true);
+  const [startDateValue, setStartDateValue] = useState<any>(null);
+  const [endDateValue, setEndDateValue] = useState<any>(null);
+  const policyFormDataAndActions = usePolicyForm();
+
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    data["startDate"] = convertUtcToYYMMDD(`${startDateValue}`);
+    data["endDate"] = convertUtcToYYMMDD(`${endDateValue}`);
+    data["type"] = policyType;
+    data["applicableTo"] = applicableToValues;
+    data["polygon"] = [
+      "22.435334,77.8793843",
+      "22.435334,77.8793843",
+      "22.435334,77.8793843",
+      "22.435334,77.8793843",
+      "22.435334,77.8793843",
+      "22.435334,77.8793843",
+      "22.435334,77.8793843",
+      "22.435334,77.8793843",
+    ];
+    data["domain"] = "mobility";
+    data["status"] = isPolicyActivated ? "active" : "inactive";
+    data["createdBy"] = "ujjwal";
+    data["contactEmail"] = "test.user1@gmail.com";
+
+    const createPolicyPayload = {
+      policy: data,
+    };
+
+    axios
+      .post(`${apiUrl}/v1/policy`, createPolicyPayload)
+      .then((res) => {
+        console.log("res", res);
+      })
+      .catch((error) => console.error(error));
+  };
+
+  useEffect(() => {
+    return () => {
+      const existingFormData = getValues();
+
+      policyFormDataAndActions.updatePolicyName(existingFormData.name);
+      policyFormDataAndActions.updatePolicyType(policyType);
+      policyFormDataAndActions.updatePolicyOwner(existingFormData.owner);
+      policyFormDataAndActions.updateDescription(existingFormData.description);
+      policyFormDataAndActions.updateCountry(existingFormData.country);
+      policyFormDataAndActions.updateCity(existingFormData.city);
+      policyFormDataAndActions.updatePolicyDocument(
+        existingFormData.policyDocument
+      );
+      policyFormDataAndActions.updateApplicableTo(
+        existingFormData.applicableTo
+      );
+      policyFormDataAndActions.updateRules(existingFormData.rules);
+      policyFormDataAndActions.updateStartDate(existingFormData.startDate);
+      policyFormDataAndActions.updateEndDate(existingFormData.endDate);
+    };
+  }, [policyType]);
+
+  const handleActivateSwitch = () => {
+    setIsPolicyActivated((prevValue) => !prevValue);
+  };
 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value },
     } = event;
+
+    setApplicableToValues(value as any);
     setPersonName(typeof value === "string" ? value.split(",") : value);
+  };
+
+  const handlePolicyChange = (event: any) => {
+    setPolicyType(event.target.value);
   };
 
   const handleInputChange = (e: any, index: number) => {
@@ -77,9 +142,6 @@ const CreatePolicyForm = () => {
   const handleAddClick = () => {
     setInputList([...inputList, { add: "", cross: "" }]);
   };
-  const dateHandler = () => {
-    setOpen(true);
-  };
 
   return (
     <Box width={"100%"}>
@@ -93,7 +155,15 @@ const CreatePolicyForm = () => {
           <Box display={"flex"} alignItems={"center"}>
             <Typography pr={3}>Activate</Typography>
             <FormGroup>
-              <FormControlLabel label="" control={<SwitchBtn />} />
+              <FormControlLabel
+                label=""
+                control={
+                  <SwitchBtn
+                    onChange={handleActivateSwitch}
+                    checked={isPolicyActivated}
+                  />
+                }
+              />
             </FormGroup>
           </Box>
         </Box>
@@ -106,7 +176,7 @@ const CreatePolicyForm = () => {
           >
             <Box>
               <label>Policy Name</label>
-              <input placeholder="Enter Policy Name" {...register("example")} />
+              <input placeholder="Enter Policy Name" {...register("name")} />
             </Box>
             <Box>
               <label>Policy Type</label>
@@ -117,46 +187,45 @@ const CreatePolicyForm = () => {
               >
                 <Select
                   className="select-policy"
-                  multiple
                   displayEmpty
-                  value={personName}
-                  onChange={handleChange}
+                  value={policyType}
+                  onChange={handlePolicyChange}
                   input={<OutlinedInput />}
                   renderValue={(selected) => {
                     if (selected.length === 0) {
                       return <span>Select</span>;
                     }
 
-                    return selected.join(", ");
+                    return selected;
                   }}
                   inputProps={{ "aria-label": "Without label" }}
                 >
                   <MenuItem disabled value="">
                     <span>Select</span>
                   </MenuItem>
-                  {names.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
+                  {policyTypes.map((policyType, i) => (
+                    <MenuItem key={i} value={policyType}>
+                      {policyType}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
-              {errors.exampleRequired && <span>This field is required</span>}
+              {errors.type && <span>This field is required</span>}
             </Box>
             <Box>
               <label>Policy Owner</label>
               <input
                 placeholder="Enter Policy Owner Name"
-                {...register("exampleRequired", { required: true })}
+                {...register("owner", { required: true })}
               />
-              {errors.exampleRequired && <span>This field is required</span>}
+              {errors.owner && <span>This field is required</span>}
             </Box>
           </Box>
           <Box>
             <label>Description</label>
             <textarea
-              defaultValue="Add policy description"
-              {...register("example")}
+              placeholder="Add policy description"
+              {...register("description")}
             />
           </Box>
           <Box
@@ -168,35 +237,51 @@ const CreatePolicyForm = () => {
               <label>Country</label>
               <input
                 placeholder="Enter country name"
-                {...register("example")}
+                {...register("country")}
               />
             </Box>
             <Box>
               <label>City</label>
               <input
                 placeholder="Enter city name"
-                {...register("exampleRequired", { required: true })}
+                {...register("city", { required: true })}
               />
 
-              {errors.exampleRequired && <span>This field is required</span>}
+              {errors.city && <span>This field is required</span>}
             </Box>
             <Box>
               <label>From</label>
-              <input
+              {/* <input
                 onClick={dateHandler}
                 placeholder="Select ‘from’ date "
-                {...register("exampleRequired", { required: true })}
+                {...register("startDate", { required: true })}
               />
               {open ? <Calendar date={new Date()} /> : null}
-              {errors.exampleRequired && <span>This field is required</span>}
+              {errors.startDate && <span>This field is required</span>} */}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    onChange={(newValue) => setStartDateValue(newValue)}
+                    label="Select ‘from’ date "
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
             </Box>
             <Box>
               <label>To</label>
-              <input
+              {/* <input
                 placeholder="Select ‘to’ date "
-                {...register("exampleRequired", { required: true })}
+                {...register("endDate", { required: true })}
               />
-              {errors.exampleRequired && <span>This field is required</span>}
+              {errors.endDate && <span>This field is required</span>} */}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DatePicker
+                    onChange={(newValue) => setEndDateValue(newValue)}
+                    label="Select ‘to’ date"
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
             </Box>
           </Box>
           <Box
@@ -213,7 +298,7 @@ const CreatePolicyForm = () => {
             /> */}
               {inputList.map((x, i) => {
                 return (
-                  <div className="box-btn">
+                  <div key={i} className="box-btn">
                     <input
                       name="EnterPolicyDocumentURL"
                       placeholder="Enter policy document URL"
@@ -245,8 +330,8 @@ const CreatePolicyForm = () => {
               <label>Applicable to</label>
               <Select
                 className="applicable-policy"
-                multiple
                 displayEmpty
+                multiple
                 value={personName}
                 onChange={handleChange}
                 input={<OutlinedInput />}
@@ -262,7 +347,7 @@ const CreatePolicyForm = () => {
                 <MenuItem disabled value="">
                   <span>Select</span>
                 </MenuItem>
-                {names.map((name) => (
+                {anotherNames.map((name) => (
                   <MenuItem key={name} value={name}>
                     {name}
                   </MenuItem>
@@ -270,24 +355,30 @@ const CreatePolicyForm = () => {
               </Select>
             </Box>
           </Box>
+          {policyType === "Geofence" && (
+            <Box className={"Geofence"} mt={3.5}>
+              <label>Geofence</label>
+              <Box className={"Geofence-inrr"}>
+                <AddIcon />
+                <Link style={{ textDecoration: "none" }} to="/createGeoFence">
+                  <span>Draw geofence on a map</span>
+                </Link>
+              </Box>
+            </Box>
+          )}
+          <Box className={"Rules"} mt={3.5}>
+            <label>Rules</label>
+            <textarea {...register("rules", { required: true })}></textarea>
+          </Box>
+          <Box className={"footer-btn"} mt={3.5}>
+            <Box component={"button"} className={"back"}>
+              Go back
+            </Box>
+            <Box component={"button"} type="submit">
+              Save
+            </Box>
+          </Box>
         </form>
-      </Box>
-      <Box className={"Geofence"} mt={3.5}>
-        <label>Geofence</label>
-        <Box className={"Geofence-inrr"}>
-          <AddIcon />
-          <Link style={{ textDecoration: "none" }} to="/createGeoFence">
-            <span>Draw geofence on a map</span>
-          </Link>
-        </Box>
-      </Box>
-      <Box className={"Rules"} mt={3.5}>
-        <label>Rules</label>
-        <textarea></textarea>
-      </Box>
-      <Box className={"footer-btn"} mt={3.5}>
-        <Box className={"back"}>Go back</Box>
-        <Box className={"save"}>Save</Box>
       </Box>
     </Box>
   );

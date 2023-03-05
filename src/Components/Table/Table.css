@@ -32,19 +32,19 @@
   font-size: 16px !important;
   color: black !important;
 }
-.MuiDataGrid-cell [title="Active"] {
+.MuiDataGrid-cell [title="active"] {
   background: #70c679;
   padding: 1px 8px 1px 8px;
   border-radius: 3px;
   color: #ffffff;
 }
-.MuiDataGrid-cell [title="Published"] {
+.MuiDataGrid-cell [title="published"] {
   background: #316496;
   padding: 1px 8px 1px 8px;
   border-radius: 3px;
   color: #ffffff;
 }
-.MuiDataGrid-cell [title="Inactive"] {
+.MuiDataGrid-cell [title="inactive"] {
   background: #ef7979;
   padding: 1px 8px 1px 8px;
   border-radius: 3px;

@@ -6,8 +6,12 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import "./Table.css";
 
+export interface TableModelProps {
+  rows?: any;
+}
+
 const columns: GridColDef[] = [
-  { field: "id", headerName: "Name", width: 200 },
+  { field: "name", headerName: "Name", width: 200 },
   {
     field: "description",
     headerName: "Description",
@@ -35,49 +39,6 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
-  {
-    id: "Quarantine zones",
-    status: "Active",
-    description:
-      "lorem ipsum dolor sit amet consectetuer adipiscing elit sed do eiusmod tempor",
-    startDate: "1/2/2020",
-    endDate: "5/2/2020",
-  },
-  {
-    id: "Policy name 1",
-    status: "Inactive",
-    description:
-      "lorem ipsum dolor sit amet consectetuer adipiscing elit sed do eiusmod tempor",
-    startDate: "8/2/2020",
-    endDate: "8/2/2020",
-  },
-  {
-    id: "Policy long name",
-    status: "Published",
-    description:
-      "lorem ipsum dolor sit amet consectetuer adipiscing elit sed do eiusmod tempor",
-    startDate: "2/2/2020",
-    endDate: "2/2/2020",
-  },
-  {
-    id: "Policy very long name",
-    status: "Active",
-    description:
-      "lorem ipsum dolor sit amet consectetuer adipiscing elit sed do eiusmod tempor",
-    startDate: "4/2/2020",
-    endDate: "4/2/2020",
-  },
-  {
-    id: "Policy very long name2",
-    status: "Inactive",
-    description:
-      "lorem ipsum dolor sit amet consectetuer adipiscing elit sed do eiusmod tempor",
-    startDate: "1/2/2020",
-    endDate: "2/2/2020",
-  },
-];
-
 function ColumnSortedDescendingIcon() {
   return <ArrowDropDownIcon />;
 }
@@ -88,7 +49,7 @@ function ColumnUnsortedIcon() {
   return <UnfoldMoreIcon />;
 }
 
-export default function Table() {
+export default function Table(props: TableModelProps) {
   return (
     <>
       <Box
@@ -103,7 +64,7 @@ export default function Table() {
       </Box>
       <Box sx={{ height: 318 }}>
         <DataGrid
-          rows={rows}
+          rows={props.rows}
           columns={columns}
           hideFooter={true}
           autoHeight={true}

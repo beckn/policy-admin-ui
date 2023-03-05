@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
@@ -8,12 +8,27 @@ import "./DashboardTabs.css";
 import Card from "../../Components/Card/Card";
 import { Link } from "react-router-dom";
 import Table from "../../Components/Table/Table";
+import axios from "axios";
+import { formatDate } from "../../Common/Common.utils";
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
+
+export type Policies = {
+  description: string;
+  endDate: string;
+  id: string;
+  name: string;
+  startDate: string;
+  status: string;
+};
+
+const apiUrl = process.env.REACT_APP_API_KEY as string;
+
+const fetchPolicies = axios.get(`${apiUrl}/v1/policy`);
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -45,10 +60,33 @@ function a11yProps(index: number) {
 export default function DashboardTabs() {
   const [value, setValue] = React.useState(0);
   const [createValue, setCreateValue] = React.useState(0);
+  const [policyArray, setPlociesArray] = useState<Policies[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const changeDateFormatOfPolicy = (policyArray: Policies[]) => {
+    policyArray.map((policy) => {
+      policy.endDate = formatDate(policy.endDate);
+      policy.startDate = formatDate(policy.endDate);
+    });
+  };
+
+  useEffect(() => {
+    fetchPolicies
+      .then((res) => {
+        setPlociesArray(res.data.policies);
+        setLoading(false);
+      })
+      .catch((e) => console.error(e));
+  }, []);
+
+  useEffect(() => {
+    changeDateFormatOfPolicy(policyArray);
+  });
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
   const handleCreatePolicy = (
     event: React.SyntheticEvent,
     newValue: number
@@ -57,6 +95,10 @@ export default function DashboardTabs() {
   };
 
   const policyStates = ["Active", "Inactive", "Published"];
+
+  if (loading) {
+    return <></>;
+  }
 
   return (
     <>
@@ -90,17 +132,17 @@ export default function DashboardTabs() {
 
         <TabPanel value={value} index={0}>
           {/* <img src="/assets/empty.svg" alt="" style={{ margin: "0 auto" }} /> */}
-          <Table />
+          <Table rows={policyArray} />
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-          Active
+          <Table />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Inactive
+          <Table />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          Published
+          <Table />
         </TabPanel>
       </Box>
     </>
