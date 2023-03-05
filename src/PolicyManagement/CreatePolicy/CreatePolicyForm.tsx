@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
 import {
   Divider,
   FormControl,
@@ -261,6 +259,7 @@ const CreatePolicyForm = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
+                    className="date-start"
                     onChange={(newValue) => setStartDateValue(newValue)}
                     label="Select ‘from’ date "
                   />
@@ -277,6 +276,7 @@ const CreatePolicyForm = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
+                    className="date-start"
                     onChange={(newValue) => setEndDateValue(newValue)}
                     label="Select ‘to’ date"
                   />
@@ -374,7 +374,7 @@ const CreatePolicyForm = () => {
             <Box component={"button"} className={"back"}>
               Go back
             </Box>
-            <Box component={"button"} type="submit">
+            <Box component={"button"} type="submit" className={"save"}>
               Save
             </Box>
           </Box>
