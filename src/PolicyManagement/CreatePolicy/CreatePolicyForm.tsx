@@ -402,7 +402,11 @@ const CreatePolicyForm = () => {
             <textarea {...register("rules", { required: true })}></textarea>
           </Box>
           <Box className={"footer-btn"} mt={3.5}>
-            <Box component={"button"} className={"back"}>
+            <Box
+              onClick={() => navigate("/dashBoard")}
+              component={"button"}
+              className={"back"}
+            >
               Go back
             </Box>
             <Box component={"button"} type="submit" className={"save"}>

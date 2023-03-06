@@ -16,7 +16,7 @@ export default function ActionAreaCard(props:CardPropsModel) {
       <CardActionArea>
         <CardContent className="cards-content">
           <Typography gutterBottom variant="h5" component="div" m={"0 auto"}>
-          00
+       {props.textCount}
           </Typography>
           <Typography variant="body2" color="text.secondary" m={"0 auto"}>
             {props.cardText}

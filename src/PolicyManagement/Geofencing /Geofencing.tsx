@@ -23,7 +23,7 @@ function Geofencing() {
   const navigate = useNavigate();
   const policyFormDataAndActions = usePolicyForm();
   const [autocomplete, setAutocomplete] = React.useState(null);
-  const [ libraries ] = useState(['places']);
+  const [libraries] = useState(["places"]);
 
   const handleClearPolygon = () => {
     setCoordinates([]);
@@ -82,7 +82,7 @@ function Geofencing() {
     textOverflow: `ellipses`,
     position: "absolute",
     left: "50%",
-   marginTop: '12px',
+    marginTop: "12px",
     marginLeft: "-120px",
   };
 
@@ -94,7 +94,7 @@ function Geofencing() {
         <div>
           <LoadScript
             libraries={libraries as any}
-            googleMapsApiKey={(process.env.REACT_APP_GOOGLE_MAP_KEY) as string}
+            googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_KEY as string}
           >
             <GoogleMap
               center={focusedMapPosition}
@@ -147,7 +147,13 @@ function Geofencing() {
         </Box>
       </Box>
       <Box className={"footer-geofencing-btn"} mt={2}>
-        <Box className={"back"}>Go back</Box>
+        <Box
+          component={"div"}
+          onClick={() => navigate("/createPolicy")}
+          className={"back"}
+        >
+          Go back
+        </Box>
         <Box
           component={"div"}
           onClick={handleSaveCoordinates}

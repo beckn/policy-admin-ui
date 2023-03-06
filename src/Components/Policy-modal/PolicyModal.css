@@ -20,17 +20,9 @@
   text-align: center;
 }
 .modal-img {
-  height: 72px;
-  width: 72px;
-  border-radius: 50%;
-  background-color: #70c6794d;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   margin-bottom: 5px;
-}
-
-.modal-img > img {
-  width: 30%;
 }

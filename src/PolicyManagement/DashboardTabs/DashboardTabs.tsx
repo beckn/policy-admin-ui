@@ -70,6 +70,26 @@ export default function DashboardTabs() {
     });
   };
 
+  const activePolicyArray = policyArray.filter(
+    (policy) => policy.status === "active"
+  );
+  const inActivePolicyArray = policyArray.filter(
+    (policy) => policy.status === "inactive"
+  );
+  const publishedPolicyArray = policyArray.filter(
+    (policy) => policy.status === "published"
+  );
+  const activePolicyCount = (policyState:string) => {
+    let lowercasedPolicyState = policyState.toLowerCase();
+    let count = 0;
+    for(let i = 0; i<policyArray.length - 1; i++) {
+      if(policyArray[i].status === lowercasedPolicyState) {
+        count++
+      }
+    }
+    return count
+  }
+
   useEffect(() => {
     fetchPolicies
       .then((res) => {
@@ -103,7 +123,7 @@ export default function DashboardTabs() {
   return (
     <>
       {policyStates.map((policyState: string) => {
-        return <Card cardText={policyState} />;
+        return <Card cardText={policyState} textCount ={activePolicyCount(policyState)} />;
       })}
       <Box sx={{ width: "100%" }} marginTop="40px" className={"tab-container"}>
         <Box
@@ -136,13 +156,13 @@ export default function DashboardTabs() {
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-          <Table />
+          <Table rows={activePolicyArray} />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <Table />
+          <Table rows={inActivePolicyArray} />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <Table />
+          <Table rows={publishedPolicyArray} />
         </TabPanel>
       </Box>
     </>

@@ -5,13 +5,14 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import "./Table.css";
+import { useNavigate } from "react-router-dom";
 
 export interface TableModelProps {
   rows?: any;
 }
 
 const columns: GridColDef[] = [
-  { field: "name", headerName: "Name", width: 200 },
+  { field: "name", headerName: "Name" },
   {
     field: "description",
     headerName: "Description",
@@ -50,6 +51,8 @@ function ColumnUnsortedIcon() {
 }
 
 export default function Table(props: TableModelProps) {
+  const navigate = useNavigate();
+
   return (
     <>
       <Box
@@ -65,6 +68,7 @@ export default function Table(props: TableModelProps) {
       <Box sx={{ height: 318 }}>
         <DataGrid
           rows={props.rows}
+          onRowClick={(row) => navigate(`/policyDetails/:${row.id}`)}
           columns={columns}
           hideFooter={true}
           autoHeight={true}

@@ -8,6 +8,7 @@ import CreatePolicyForm from "./PolicyManagement/CreatePolicy/CreatePolicyForm";
 import Geofencing from "./PolicyManagement/Geofencing /Geofencing";
 import DashboardTabs from "./PolicyManagement/DashboardTabs/DashboardTabs";
 import PolicyDetails from "./PolicyManagement/PolicyDetails/PolicyDetails";
+// element={<Navigate to="/" replace />}
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
         element: <DashboardTabs />,
       },
       {
-        path: "policyDetails",
+        path: "policyDetails/:id",
         element: <PolicyDetails />,
       },
     ],
