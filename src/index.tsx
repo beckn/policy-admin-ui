@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         element: <Geofencing />,
       },
       {
-        path: "dashBoard",
+        path: "/",
         element: <DashboardTabs />,
       },
       {
