@@ -1,14 +1,21 @@
 import {
   Box,
-  NativeSelect,
+  FormControl,
+  MenuItem,
   OutlinedInput,
-  SelectChangeEvent,
+  Select,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./PolicyDetails.css";
 
 function PolicyDetails() {
+  let statusDetail = ["Active", "Inactive", "Publish"];
+  const [statusDetails, setStatusDetails] = useState([]);
+  const handlePolicyChange = useCallback((event: any, val: any) => {
+    setStatusDetails(event.target.value);
+  }, []);
+
   return (
     <Box className="policy-details-container">
       <Box className="form-data">
@@ -42,21 +49,22 @@ function PolicyDetails() {
             <Typography fontWeight={600} fontSize="14px" mb={1}>
               Status
             </Typography>
-            <NativeSelect
-              style={{ width: "181px" }}
-              input={<OutlinedInput />}
-              defaultValue={"Active"}
-            >
-              <option className="status" value="Active">
-                Active
-              </option>
-              <option className="status" value="Publish">
-                Publish
-              </option>
-              <option className="status" value="Inactive">
-                Inactive
-              </option>
-            </NativeSelect>
+            <FormControl className="select-policy-details">
+              <Select
+                className="select-policy details"
+                displayEmpty
+                value={statusDetails}
+                onChange={handlePolicyChange}
+                input={<OutlinedInput />}
+                inputProps={{ "aria-label": `${statusDetails}` }}
+              >
+                {statusDetail.map((status, i) => (
+                  <MenuItem className="status" key={i} value={status}>
+                    {status}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
         </Box>
         <Box padding="15px">
