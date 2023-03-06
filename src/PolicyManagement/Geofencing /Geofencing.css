@@ -19,3 +19,10 @@
   padding: 10px 100px;
   text-align: center;
 }
+.save {
+  cursor: pointer;
+}
+
+.back{
+  cursor: pointer;
+}
