@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
@@ -33,6 +33,8 @@ export default function ResponsiveDrawer(props: Props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const navigate = useNavigate();
+
   const drawer = (
     <div className="custom-drawer">
       <Typography
@@ -47,7 +49,7 @@ export default function ResponsiveDrawer(props: Props) {
       <List style={{ paddingLeft: "50px", marginTop: "10px" }}>
         <ListItem disablePadding>
           <ListItemButton className="list-btn active">
-            <ListItemText primary={"Home"} className="list-text" />
+            <ListItemText onClick={() => navigate('/dashBoard')} primary={"Home"} className="list-text" />
           </ListItemButton>
         </ListItem>
       </List>

@@ -18,11 +18,13 @@ const style = {
   p: 4,
 };
 interface policyPropModal {
-  policyTitle: string;
+  policyTitle?: string;
   className?: string;
-  policySubTitle: string;
+  policySubTitle?: string;
   policyButtonText?: string;
   modalIcon?: string;
+  open: boolean;
+  handleClose: any;
 }
 const PolicyModal: React.FC<policyPropModal> = ({
   policyTitle,
@@ -30,14 +32,12 @@ const PolicyModal: React.FC<policyPropModal> = ({
   policySubTitle,
   policyButtonText,
   modalIcon,
+  open,
+  handleClose,
 }) => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   return (
     <Box>
-      <Button onClick={handleOpen}>Open modal</Button>
+      {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -54,7 +54,9 @@ const PolicyModal: React.FC<policyPropModal> = ({
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {policySubTitle}
           </Typography>
-          <Box className="modal-btn">{policyButtonText}</Box>
+          <Box component={"div"} onClick={handleClose} className="modal-btn">
+            {policyButtonText}
+          </Box>
         </Box>
       </Modal>
     </Box>

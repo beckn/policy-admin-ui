@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
+import React, { useCallback, useEffect } from "react";
 import {
   Divider,
   FormControl,
@@ -18,8 +16,9 @@ import SwitchBtn from "../../Components/Switch/SwitchBtn";
 import "./CreatePolicyForm.css";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import ClearIcon from "@mui/icons-material/Clear";
-import { Link } from "react-router-dom";
+//TODO check if this is required
+// import ClearIcon from "@mui/icons-material/Clear";
+import { Link, useNavigate } from "react-router-dom";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -32,18 +31,11 @@ import {
   policyTypes,
 } from "./CreatePolicyForm.utils";
 import axios from "axios";
+import PolicyModal from "../../Components/Policy-modal/PolicyModal";
 
 const apiUrl = process.env.REACT_APP_API_KEY as string;
 
 const CreatePolicyForm = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    getValues,
-    formState: { errors },
-  } = useForm<IFormInput>();
-
   const [inputList, setInputList] = useState([{ add: "", cross: "" }]);
   const [personName, setPersonName] = useState<string[]>([]);
   const [applicableToValues, setApplicableToValues] = useState([]);
@@ -51,23 +43,34 @@ const CreatePolicyForm = () => {
   const [isPolicyActivated, setIsPolicyActivated] = useState(true);
   const [startDateValue, setStartDateValue] = useState<any>(null);
   const [endDateValue, setEndDateValue] = useState<any>(null);
+  const [isPolicyCreationSuccessful, setIsPolicyCreationSuccessful] =
+    useState<boolean>(false);
+
   const policyFormDataAndActions = usePolicyForm();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<IFormInput>({
+    defaultValues: {
+      name: policyFormDataAndActions.policyName,
+      owner: policyFormDataAndActions.policyOwner,
+      description: policyFormDataAndActions.description,
+      country: policyFormDataAndActions.country,
+      city: policyFormDataAndActions.city,
+      policyDocument: policyFormDataAndActions.policyDocument,
+      rules: policyFormDataAndActions.rules,
+    },
+  });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     data["startDate"] = convertUtcToYYMMDD(`${startDateValue}`);
     data["endDate"] = convertUtcToYYMMDD(`${endDateValue}`);
     data["type"] = policyType;
-    data["applicableTo"] = applicableToValues;
-    data["polygon"] = [
-      "22.435334,77.8793843",
-      "22.435334,77.8793843",
-      "22.435334,77.8793843",
-      "22.435334,77.8793843",
-      "22.435334,77.8793843",
-      "22.435334,77.8793843",
-      "22.435334,77.8793843",
-      "22.435334,77.8793843",
-    ];
+    data["applicableTo"] = personName;
+    data["polygon"] = policyFormDataAndActions.polygon;
     data["domain"] = "mobility";
     data["status"] = isPolicyActivated ? "active" : "inactive";
     data["createdBy"] = "ujjwal";
@@ -80,17 +83,28 @@ const CreatePolicyForm = () => {
     axios
       .post(`${apiUrl}/v1/policy`, createPolicyPayload)
       .then((res) => {
-        console.log("res", res);
+        if (res.status === 200) {
+          setIsPolicyCreationSuccessful(true);
+        }
       })
       .catch((error) => console.error(error));
   };
+
+  useEffect(() => {
+    if (policyFormDataAndActions.policyType !== "") {
+      setPolicyType(policyFormDataAndActions.policyType);
+    }
+    if (policyFormDataAndActions.applicableTo) {
+      setPersonName(policyFormDataAndActions.applicableTo as string[]);
+    }
+  }, []);
 
   useEffect(() => {
     return () => {
       const existingFormData = getValues();
 
       policyFormDataAndActions.updatePolicyName(existingFormData.name);
-      policyFormDataAndActions.updatePolicyType(policyType);
+      // policyFormDataAndActions.updatePolicyType(policyType);
       policyFormDataAndActions.updatePolicyOwner(existingFormData.owner);
       policyFormDataAndActions.updateDescription(existingFormData.description);
       policyFormDataAndActions.updateCountry(existingFormData.country);
@@ -98,31 +112,41 @@ const CreatePolicyForm = () => {
       policyFormDataAndActions.updatePolicyDocument(
         existingFormData.policyDocument
       );
-      policyFormDataAndActions.updateApplicableTo(
-        existingFormData.applicableTo
-      );
+      // policyFormDataAndActions.updateApplicableTo(personName);
       policyFormDataAndActions.updateRules(existingFormData.rules);
       policyFormDataAndActions.updateStartDate(existingFormData.startDate);
       policyFormDataAndActions.updateEndDate(existingFormData.endDate);
     };
-  }, [policyType]);
+  }, []);
+
+  const handleModalClose = () => {
+    setIsPolicyCreationSuccessful(false);
+    navigate("/dashBoard");
+  };
 
   const handleActivateSwitch = () => {
     setIsPolicyActivated((prevValue) => !prevValue);
   };
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
+  const handleChange = useCallback(
+    (event: SelectChangeEvent<typeof personName>) => {
+      const {
+        target: { value },
+      } = event;
 
-    setApplicableToValues(value as any);
-    setPersonName(typeof value === "string" ? value.split(",") : value);
-  };
+      setApplicableToValues(value as any);
+      setPersonName(typeof value === "string" ? value.split(",") : value);
+      policyFormDataAndActions.updateApplicableTo(
+        typeof value === "string" ? value.split(",") : value
+      );
+    },
+    []
+  );
 
-  const handlePolicyChange = (event: any) => {
+  const handlePolicyChange = useCallback((event: any) => {
     setPolicyType(event.target.value);
-  };
+    policyFormDataAndActions.updatePolicyType(event.target.value);
+  }, []);
 
   const handleInputChange = (e: any, index: number) => {
     const { name, value } = e.target;
@@ -145,6 +169,14 @@ const CreatePolicyForm = () => {
 
   return (
     <Box width={"100%"}>
+      <PolicyModal
+        handleClose={handleModalClose}
+        open={isPolicyCreationSuccessful}
+        policyTitle="Policy has been created!"
+        policySubTitle="Policy activation was a success. Your policy will take effect once it has been ‘Published’. "
+        modalIcon="/assets/activePolicy.svg"
+        policyButtonText="Okay"
+      />
       <Box className={"form-container"}>
         <Box
           display={"flex"}
@@ -261,6 +293,7 @@ const CreatePolicyForm = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
+                    className="date-start"
                     onChange={(newValue) => setStartDateValue(newValue)}
                     label="Select ‘from’ date "
                   />
@@ -277,6 +310,7 @@ const CreatePolicyForm = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
+                    className="date-start"
                     onChange={(newValue) => setEndDateValue(newValue)}
                     label="Select ‘to’ date"
                   />
@@ -296,17 +330,16 @@ const CreatePolicyForm = () => {
               defaultValue="Enter policy document URL"
               {...register("exampleRequired", { required: true })}
             /> */}
-              {inputList.map((x, i) => {
-                return (
-                  <div key={i} className="box-btn">
-                    <input
-                      name="EnterPolicyDocumentURL"
-                      placeholder="Enter policy document URL"
-                      value={x.add}
-                      onChange={(e) => handleInputChange(e, i)}
-                    />
 
-                    {inputList.length - 1 === i && (
+              <div className="box-btn">
+                <input
+                  placeholder="Enter policy document URL"
+                  {...register("policyDocument", { required: true })}
+                  // onChange={(e) => handleInputChange(e)}
+                />
+                {/* TODO if the commented code is required */}
+
+                {/* {inputList.length - 1 === i && (
                       <Box
                         className={"addicon addiconn"}
                         onClick={handleAddClick}
@@ -321,10 +354,8 @@ const CreatePolicyForm = () => {
                       >
                         <ClearIcon />
                       </Box>
-                    )}
-                  </div>
-                );
-              })}
+                    )} */}
+              </div>
             </Box>
             <Box className={"applicable-tab"}>
               <label>Applicable to</label>
@@ -374,7 +405,7 @@ const CreatePolicyForm = () => {
             <Box component={"button"} className={"back"}>
               Go back
             </Box>
-            <Box component={"button"} type="submit">
+            <Box component={"button"} type="submit" className={"save"}>
               Save
             </Box>
           </Box>

@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import CreatePolicyForm from "./PolicyManagement/CreatePolicy/CreatePolicyForm";
 import Geofencing from "./PolicyManagement/Geofencing /Geofencing";
 import DashboardTabs from "./PolicyManagement/DashboardTabs/DashboardTabs";
+import PolicyDetails from "./PolicyManagement/PolicyDetails/PolicyDetails";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "dashBoard",
         element: <DashboardTabs />,
+      },
+      {
+        path: "policyDetails",
+        element: <PolicyDetails />,
       },
     ],
   },
