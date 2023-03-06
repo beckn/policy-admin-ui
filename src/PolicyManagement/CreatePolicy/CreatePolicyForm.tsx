@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import SwitchBtn from "../../Components/Switch/SwitchBtn";
 import "./CreatePolicyForm.css";
 import { useState } from "react";
@@ -43,10 +43,12 @@ const CreatePolicyForm = () => {
   const [isPolicyActivated, setIsPolicyActivated] = useState(true);
   const [startDateValue, setStartDateValue] = useState<any>(null);
   const [endDateValue, setEndDateValue] = useState<any>(null);
+  const [rulesJson, setRulesJson] = useState<any>(null);
   const [isPolicyCreationSuccessful, setIsPolicyCreationSuccessful] =
     useState<boolean>(false);
 
   const policyFormDataAndActions = usePolicyForm();
+
   const navigate = useNavigate();
   const {
     register,
@@ -139,6 +141,74 @@ const CreatePolicyForm = () => {
       policyFormDataAndActions.updateApplicableTo(
         typeof value === "string" ? value.split(",") : value
       );
+      const presentExistingFormData = getValues();
+
+      setRulesJson({
+        context: {
+          action: "policy",
+          domain: "mobility",
+          location: {
+            country: "IND",
+            city: "080",
+          },
+          version: "1.0.0",
+        },
+        message: {
+          policy: {
+            id: "1",
+            owner: {
+              descriptor: {
+                name: presentExistingFormData.owner,
+                contact: {
+                  email: "support@moh.gov.in",
+                },
+              },
+            },
+            descriptor: {
+              name: presentExistingFormData.name,
+              short_desc: presentExistingFormData.description,
+              "	media": [
+                {
+                  mimetype: "application/pdf",
+                  url: presentExistingFormData.policyDocument,
+                },
+              ],
+            },
+            type: policyType,
+            coverage: [
+              {
+                spatial: [
+                  {
+                    country: "IND",
+                    city: "std:080",
+                  },
+                ],
+                temporal: [
+                  {
+                    range: {
+                      start: convertUtcToYYMMDD(`${startDateValue}`),
+                      end: convertUtcToYYMMDD(`${startDateValue}`),
+                    },
+                  },
+                ],
+                subscribers: [
+                  {
+                    type: "bap",
+                  },
+                  {
+                    type: "bpp",
+                  },
+                ],
+              },
+            ],
+            geofences: [
+              {
+                polygon: policyFormDataAndActions.polygon,
+              },
+            ],
+          },
+        },
+      });
     },
     []
   );
@@ -399,7 +469,10 @@ const CreatePolicyForm = () => {
           )}
           <Box className={"Rules"} mt={3.5}>
             <label>Rules</label>
-            <textarea {...register("rules", { required: true })}></textarea>
+            <textarea
+              value={JSON.stringify(rulesJson, undefined, 2)}
+              {...register("rules", { required: true })}
+            ></textarea>
           </Box>
           <Box className={"footer-btn"} mt={3.5}>
             <Box

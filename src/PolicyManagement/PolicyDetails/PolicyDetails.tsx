@@ -1,3 +1,4 @@
+import { PublishedWithChanges } from "@mui/icons-material";
 import {
   Box,
   FormControl,
@@ -7,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertUtcToYYMMDD } from "../../Common/Common.utils";
 import PolicyModal from "../../Components/Policy-modal/PolicyModal";
@@ -32,12 +33,60 @@ function PolicyDetails() {
     policySubTitle: "",
     modalIcon: "",
   });
+  const firstRender = useRef(true);
 
   const handlePolicyChange = (event: any, val: any) => {
     setStatusDetails(event.target.value);
   };
 
   const parsedId = (id as string).substring(1);
+
+  const payloadForBrodcast = (policyDetails: any, status: string) => {
+    return {
+      context: {
+        action: "broadcast",
+        domain: "mobility",
+        country: "India",
+        city: "Pune",
+        version: "1.0.0",
+      },
+      policy: {
+        id: policyDetails.id,
+        domain: policyDetails.domain,
+        type: policyDetails.type,
+        country: policyDetails.country,
+        city: policyDetails.city,
+        name: policyDetails.name,
+        description: policyDetails.description,
+        owner: policyDetails.owner,
+        contactEmail: policyDetails.email,
+        startDate: policyDetails.startDate,
+        endDate: policyDetails.endDate,
+        applicableTo: policyDetails.applicableTo,
+        polygon: policyDetails.polygon,
+        status: status,
+        createdBy: "Rahul Choudhary",
+      },
+    };
+  };
+
+  const payloadForBrodcastUpdate = (policyDetails: any, status: string) => {
+    return {
+      context: {
+        action: "broadcast",
+        domain: "mobility",
+        country: "India",
+        city: "Pune",
+        version: "1.0.0",
+      },
+      message: {
+        policy: {
+          id: policyDetails.id,
+          status: status,
+        },
+      },
+    };
+  };
 
   useEffect(() => {
     if (policyDetails !== null) {
@@ -60,6 +109,10 @@ function PolicyDetails() {
 
   useEffect(() => {
     if (statusDetails !== "") {
+      if (firstRender.current) {
+        firstRender.current = false;
+        return;
+      }
       axios
         .patch(`${apiUrl}/v1/policy`, {
           policy: {
@@ -81,6 +134,13 @@ function PolicyDetails() {
                 policyTitle: "Policy has been deactivated!",
               });
               setIsModalOpen(true);
+              axios
+                .post(
+                  "http://api.mobility-bap-policy.becknprotocol.io:8082/v1/policy/broadcast/update",
+                  payloadForBrodcastUpdate(policyDetails, "inactive")
+                )
+                .then((res) => console.log("brodcast res", res))
+                .catch((e) => console.error(e));
             }
             if (res.data.policy.status === "active") {
               setModalDetails({
@@ -100,6 +160,14 @@ function PolicyDetails() {
                 policyTitle: "Policy published successfully!",
               });
               setIsModalOpen(true);
+
+              axios
+                .post(
+                  "http://api.mobility-bap-policy.becknprotocol.io:8082/v1/policy/broadcast",
+                  payloadForBrodcast(policyDetails, "new")
+                )
+                .then((res) => console.log("brodcast res", res))
+                .catch((e) => console.error(e));
             }
           }
         })
@@ -303,7 +371,7 @@ function PolicyDetails() {
         <Box className={"footer-btn"} mt={3.5}>
           <Box
             component={"div"}
-            onClick={() => navigate("/dashBoard")}
+            onClick={() => navigate("/")}
             className={"back"}
           >
             Go back

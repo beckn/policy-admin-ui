@@ -9,7 +9,7 @@ export interface IFormPolicy {
   city: string;
   policyDocument: string;
   applicableTo: string | string[];
-  rules: string;
+  rules: any;
   startDate: string;
   endDate: string;
   polygon: string[];
@@ -36,7 +36,7 @@ export const usePolicyForm = create<IFormPolicy>((set) => ({
   city: "",
   policyDocument: "",
   applicableTo: "",
-  rules: "",
+  rules: null,
   startDate: "",
   endDate: "",
   polygon: [],
@@ -54,8 +54,8 @@ export const usePolicyForm = create<IFormPolicy>((set) => ({
     set({ policyDocument: newPolicyDocument }),
   updateApplicableTo: (newApplicableTo: string | string[]) =>
     set({ applicableTo: newApplicableTo }),
-  updateRules: (newRules: string) => set({ rules: newRules }),
+  updateRules: (newRules: any) => set({ rules: newRules }),
   updateStartDate: (newStartDate: string) => set({ startDate: newStartDate }),
   updateEndDate: (newEndDate: string) => set({ endDate: newEndDate }),
-  updatePolygon: (newPolygon:any) => set({ polygon: newPolygon }),
+  updatePolygon: (newPolygon: any) => set({ polygon: newPolygon }),
 }));
