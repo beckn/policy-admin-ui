@@ -49,7 +49,7 @@ export default function ResponsiveDrawer(props: Props) {
         <ListItem disablePadding>
           <ListItemButton className="list-btn active">
             <ListItemText
-              onClick={() => navigate("/dashBoard")}
+              onClick={() => navigate("/")}
               primary={"Home"}
               className="list-text"
             />

@@ -123,7 +123,7 @@ const CreatePolicyForm = () => {
 
   const handleModalClose = () => {
     setIsPolicyCreationSuccessful(false);
-    navigate("/dashBoard");
+    navigate("/");
   };
 
   const handleActivateSwitch = () => {
