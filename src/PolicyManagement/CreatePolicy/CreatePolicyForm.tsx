@@ -32,17 +32,22 @@ import {
 } from "./CreatePolicyForm.utils";
 import axios from "axios";
 import PolicyModal from "../../Components/Policy-modal/PolicyModal";
-
+import dayjs from 'dayjs';
 const apiUrl = process.env.REACT_APP_API_KEY as string;
-
+const getSavedDate=()=>{
+  const date=localStorage.getItem("date")
+  return date?JSON.parse(date):{}; 
+}
 const CreatePolicyForm = () => {
+  const {start=null,end=null}= getSavedDate()
+
   const [inputList, setInputList] = useState([{ add: "", cross: "" }]);
   const [personName, setPersonName] = useState<string[]>([]);
   const [applicableToValues, setApplicableToValues] = useState([]);
   const [policyType, setPolicyType] = useState<string>("");
   const [isPolicyActivated, setIsPolicyActivated] = useState(true);
-  const [startDateValue, setStartDateValue] = useState<any>(null);
-  const [endDateValue, setEndDateValue] = useState<any>(null);
+  const [startDateValue, setStartDateValue] = useState<any>(start);
+  const [endDateValue, setEndDateValue] = useState<any>(end);
   const [isPolicyCreationSuccessful, setIsPolicyCreationSuccessful] =
     useState<boolean>(false);
 
@@ -114,8 +119,8 @@ const CreatePolicyForm = () => {
       );
       // policyFormDataAndActions.updateApplicableTo(personName);
       policyFormDataAndActions.updateRules(existingFormData.rules);
-      policyFormDataAndActions.updateStartDate(existingFormData.startDate);
-      policyFormDataAndActions.updateEndDate(existingFormData.endDate);
+      policyFormDataAndActions.updateStartDate(start);
+      policyFormDataAndActions.updateEndDate(end);
     };
   }, []);
 
@@ -166,6 +171,12 @@ const CreatePolicyForm = () => {
   const handleAddClick = () => {
     setInputList([...inputList, { add: "", cross: "" }]);
   };
+
+  useEffect(() => {
+       if(startDateValue || endDateValue){
+        localStorage.setItem("date",JSON.stringify({start:startDateValue,end:endDateValue}))
+       }
+  },[startDateValue,endDateValue])
 
   return (
     <Box width={"100%"}>
@@ -296,6 +307,7 @@ const CreatePolicyForm = () => {
                     className="date-start"
                     onChange={(newValue) => setStartDateValue(newValue)}
                     label="Select ‘from’ date "
+                    defaultValue={dayjs(start)}
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -313,6 +325,8 @@ const CreatePolicyForm = () => {
                     className="date-start"
                     onChange={(newValue) => setEndDateValue(newValue)}
                     label="Select ‘to’ date"
+                    defaultValue={dayjs(end)}
+                    //value={endDateValue}
                   />
                 </DemoContainer>
               </LocalizationProvider>
