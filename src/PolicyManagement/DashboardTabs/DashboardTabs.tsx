@@ -79,16 +79,14 @@ export default function DashboardTabs() {
   const publishedPolicyArray = policyArray.filter(
     (policy) => policy.status === "published"
   );
-  const activePolicyCount = (policyState:string) => {
+
+  const activePolicyCount = (policyState: string) => {
     let lowercasedPolicyState = policyState.toLowerCase();
-    let count = 0;
-    for(let i = 0; i<policyArray.length - 1; i++) {
-      if(policyArray[i].status === lowercasedPolicyState) {
-        count++
-      }
-    }
-    return count
-  }
+    const countPublished = policyArray.filter(
+      (obj) => obj.status === lowercasedPolicyState
+    ).length;
+    return countPublished;
+  };
 
   useEffect(() => {
     fetchPolicies
@@ -123,7 +121,12 @@ export default function DashboardTabs() {
   return (
     <>
       {policyStates.map((policyState: string) => {
-        return <Card cardText={policyState} textCount ={activePolicyCount(policyState)} />;
+        return (
+          <Card
+            cardText={policyState}
+            textCount={activePolicyCount(policyState)}
+          />
+        );
       })}
       <Box sx={{ width: "100%" }} marginTop="40px" className={"tab-container"}>
         <Box

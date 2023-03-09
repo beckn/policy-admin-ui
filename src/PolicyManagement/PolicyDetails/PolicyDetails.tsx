@@ -13,6 +13,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { convertUtcToYYMMDD } from "../../Common/Common.utils";
 import PolicyModal from "../../Components/Policy-modal/PolicyModal";
 import "./PolicyDetails.css";
+import {
+  getStatusDrodpwnItems,
+  payloadForBrodcast,
+  payloadForBrodcastUpdate,
+} from "./PolicyDetails.utils";
 
 const apiUrl = process.env.REACT_APP_API_KEY as string;
 
@@ -40,53 +45,6 @@ function PolicyDetails() {
   };
 
   const parsedId = (id as string).substring(1);
-
-  const payloadForBrodcast = (policyDetails: any, status: string) => {
-    return {
-      context: {
-        action: "broadcast",
-        domain: "mobility",
-        country: "India",
-        city: "Pune",
-        version: "1.0.0",
-      },
-      policy: {
-        id: policyDetails.id,
-        domain: policyDetails.domain,
-        type: policyDetails.type,
-        country: policyDetails.country,
-        city: policyDetails.city,
-        name: policyDetails.name,
-        description: policyDetails.description,
-        owner: policyDetails.owner,
-        contactEmail: policyDetails.email,
-        startDate: policyDetails.startDate,
-        endDate: policyDetails.endDate,
-        applicableTo: policyDetails.applicableTo,
-        polygon: policyDetails.polygon,
-        status: status,
-        createdBy: "Rahul Choudhary",
-      },
-    };
-  };
-
-  const payloadForBrodcastUpdate = (policyDetails: any, status: string) => {
-    return {
-      context: {
-        action: "broadcast",
-        domain: "mobility",
-        country: "India",
-        city: "Pune",
-        version: "1.0.0",
-      },
-      message: {
-        policy: {
-          id: policyDetails.id,
-          status: status,
-        },
-      },
-    };
-  };
 
   useEffect(() => {
     if (policyDetails !== null) {
@@ -175,18 +133,8 @@ function PolicyDetails() {
     }
   }, [statusDetails]);
 
-  const getStatusDrodpwnItems = () => {
-    if (statusDetails === "Publish") {
-      return setStatusDetailArray(["Publish", "Inactive"]);
-    }
-    if (statusDetails == "Inactive") {
-      return setStatusDetailArray(["Inactive", "Active"]);
-    }
-    return setStatusDetailArray(["Active", "Publish", "Inactive"]);
-  };
-
   useEffect(() => {
-    getStatusDrodpwnItems();
+    getStatusDrodpwnItems(statusDetails, setStatusDetailArray);
   }, [statusDetails]);
 
   const handleModalClose = () => {
@@ -196,8 +144,6 @@ function PolicyDetails() {
   if (policyDetails === null) {
     return <></>;
   }
-
-  console.log("isModalOpen", isModalOpen);
 
   return (
     <>
@@ -356,7 +302,7 @@ function PolicyDetails() {
               Rules
             </Typography>
             <Typography variant="subtitle2" gutterBottom fontSize="14px">
-              "id": 11, "title": "perfume Oil", "description": "Mega Discount,
+              {/* "id": 11, "title": "perfume Oil", "description": "Mega Discount,
               Impression of A...", "price": 13, "discountPercentage": 8.4,
               "rating": 4.26, "stock": 65, "brand": "Impression of Acqua Di
               Gio", "category": "fragrances", "thumbnail":
@@ -364,7 +310,8 @@ function PolicyDetails() {
               "images": [ "https://i.dummyjson.com/data/products/11/1.jpg",
               "https://i.dummyjson.com/data/products/11/2.jpg",
               "https://i.dummyjson.com/data/products/11/3.jpg",
-              "https://i.dummyjson.com/data/products/11/thumbnail.jpg"]
+              "https://i.dummyjson.com/data/products/11/thumbnail.jpg"] */}
+              {policyDetails.rules}
             </Typography>
           </Box>
         </Box>
