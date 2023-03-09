@@ -52,7 +52,6 @@ function ColumnUnsortedIcon() {
 
 export default function Table(props: TableModelProps) {
   const navigate = useNavigate();
-
   return (
     <>
       <Box
@@ -63,7 +62,7 @@ export default function Table(props: TableModelProps) {
           marginBottom: "20px",
         }}
       >
-        All Policies (23)
+        All Policies ({props.rows.length||0})
       </Box>
       <Box sx={{ height: 318 }}>
         <DataGrid
