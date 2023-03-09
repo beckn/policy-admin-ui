@@ -186,8 +186,8 @@ const CreatePolicyForm = () => {
                 temporal: [
                   {
                     range: {
-                      start: convertUtcToYYMMDD(`${startDateValue}`),
-                      end: convertUtcToYYMMDD(`${startDateValue}`),
+                      start: convertUtcToYYMMDD(startDateValue),
+                      end: convertUtcToYYMMDD(endDateValue),
                     },
                   },
                 ],
@@ -470,13 +470,17 @@ const CreatePolicyForm = () => {
           <Box className={"Rules"} mt={3.5}>
             <label>Rules</label>
             <textarea
-              value={JSON.stringify(rulesJson, undefined, 2)}
+              value={
+                rulesJson !== null
+                  ? JSON.stringify(rulesJson, undefined, 2)
+                  : ""
+              }
               {...register("rules", { required: true })}
             ></textarea>
           </Box>
           <Box className={"footer-btn"} mt={3.5}>
             <Box
-              onClick={() => navigate("/dashBoard")}
+              onClick={() => navigate("/")}
               component={"button"}
               className={"back"}
             >
