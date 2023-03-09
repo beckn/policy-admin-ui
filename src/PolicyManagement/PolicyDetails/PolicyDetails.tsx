@@ -1,3 +1,4 @@
+import { PublishedWithChanges } from "@mui/icons-material";
 import {
   Box,
   FormControl,
@@ -7,11 +8,16 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { convertUtcToYYMMDD } from "../../Common/Common.utils";
 import PolicyModal from "../../Components/Policy-modal/PolicyModal";
 import "./PolicyDetails.css";
+import {
+  getStatusDrodpwnItems,
+  payloadForBrodcast,
+  payloadForBrodcastUpdate,
+} from "./PolicyDetails.utils";
 
 const apiUrl = process.env.REACT_APP_API_KEY as string;
 
@@ -32,6 +38,7 @@ function PolicyDetails() {
     policySubTitle: "",
     modalIcon: "",
   });
+  const firstRender = useRef(true);
 
   const handlePolicyChange = (event: any, val: any) => {
     setStatusDetails(event.target.value);
@@ -60,6 +67,10 @@ function PolicyDetails() {
 
   useEffect(() => {
     if (statusDetails !== "") {
+      if (firstRender.current) {
+        firstRender.current = false;
+        return;
+      }
       axios
         .patch(`${apiUrl}/v1/policy`, {
           policy: {
@@ -81,6 +92,13 @@ function PolicyDetails() {
                 policyTitle: "Policy has been deactivated!",
               });
               setIsModalOpen(true);
+              axios
+                .post(
+                  "https://api.mobility-bap-policy.becknprotocol.io:8082/v1/policy/broadcast/update",
+                  payloadForBrodcastUpdate(policyDetails, "inactive")
+                )
+                .then((res) => console.log("brodcast res", res))
+                .catch((e) => console.error(e));
             }
             if (res.data.policy.status === "active") {
               setModalDetails({
@@ -100,6 +118,14 @@ function PolicyDetails() {
                 policyTitle: "Policy published successfully!",
               });
               setIsModalOpen(true);
+
+              axios
+                .post(
+                  "https://api.mobility-bap-policy.becknprotocol.io/v1/policy/broadcast",
+                  payloadForBrodcast(policyDetails, "new")
+                )
+                .then((res) => console.log("brodcast res", res))
+                .catch((e) => console.error(e));
             }
           }
         })
@@ -107,18 +133,8 @@ function PolicyDetails() {
     }
   }, [statusDetails]);
 
-  const getStatusDrodpwnItems = () => {
-    if (statusDetails === "Publish") {
-      return setStatusDetailArray(["Publish", "Inactive"]);
-    }
-    if (statusDetails == "Inactive") {
-      return setStatusDetailArray(["Inactive", "Active"]);
-    }
-    return setStatusDetailArray(["Active", "Publish", "Inactive"]);
-  };
-
   useEffect(() => {
-    getStatusDrodpwnItems();
+    getStatusDrodpwnItems(statusDetails, setStatusDetailArray);
   }, [statusDetails]);
 
   const handleModalClose = () => {
@@ -128,8 +144,6 @@ function PolicyDetails() {
   if (policyDetails === null) {
     return <></>;
   }
-
-  console.log("isModalOpen", isModalOpen);
 
   return (
     <>
@@ -288,7 +302,7 @@ function PolicyDetails() {
               Rules
             </Typography>
             <Typography variant="subtitle2" gutterBottom fontSize="14px">
-              "id": 11, "title": "perfume Oil", "description": "Mega Discount,
+              {/* "id": 11, "title": "perfume Oil", "description": "Mega Discount,
               Impression of A...", "price": 13, "discountPercentage": 8.4,
               "rating": 4.26, "stock": 65, "brand": "Impression of Acqua Di
               Gio", "category": "fragrances", "thumbnail":
@@ -296,14 +310,15 @@ function PolicyDetails() {
               "images": [ "https://i.dummyjson.com/data/products/11/1.jpg",
               "https://i.dummyjson.com/data/products/11/2.jpg",
               "https://i.dummyjson.com/data/products/11/3.jpg",
-              "https://i.dummyjson.com/data/products/11/thumbnail.jpg"]
+              "https://i.dummyjson.com/data/products/11/thumbnail.jpg"] */}
+              {policyDetails.rules}
             </Typography>
           </Box>
         </Box>
         <Box className={"footer-btn"} mt={3.5}>
           <Box
             component={"div"}
-            onClick={() => navigate("/dashBoard")}
+            onClick={() => navigate("/")}
             className={"back"}
           >
             Go back

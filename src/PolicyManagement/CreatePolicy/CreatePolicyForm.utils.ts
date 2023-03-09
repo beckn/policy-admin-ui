@@ -17,6 +17,6 @@ export interface IFormInput {
   createdBy: string;
 }
 
-export const policyTypes = ["Geofence"];
+export const policyTypes = ["Geofence", "Privacy", "Alcohol"];
 
-export const anotherNames = ["BAP", "BPP", "BG"];
+export const anotherNames = ["BAP", "BPP"];

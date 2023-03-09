@@ -18,7 +18,6 @@ import CreatePolicyForm from "../../PolicyManagement/CreatePolicy/CreatePolicyFo
 import Geofencing from "../../PolicyManagement/Geofencing /Geofencing";
 import PolicyModal from "../../Components/Policy-modal/PolicyModal";
 
-
 const drawerWidth = 262;
 
 interface Props {
@@ -49,7 +48,11 @@ export default function ResponsiveDrawer(props: Props) {
       <List style={{ paddingLeft: "50px", marginTop: "10px" }}>
         <ListItem disablePadding>
           <ListItemButton className="list-btn active">
-            <ListItemText onClick={() => navigate('/dashBoard')} primary={"Home"} className="list-text" />
+            <ListItemText
+              onClick={() => navigate("/")}
+              primary={"Home"}
+              className="list-text"
+            />
           </ListItemButton>
         </ListItem>
       </List>
@@ -116,7 +119,7 @@ export default function ResponsiveDrawer(props: Props) {
             justifyContent: "space-between",
           }}
         >
-         <Outlet />
+          <Outlet />
         </Box>
       </Box>
     </Box>

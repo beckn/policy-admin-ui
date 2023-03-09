@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import SwitchBtn from "../../Components/Switch/SwitchBtn";
 import "./CreatePolicyForm.css";
 import { useState } from "react";
@@ -32,10 +32,15 @@ import {
 } from "./CreatePolicyForm.utils";
 import axios from "axios";
 import PolicyModal from "../../Components/Policy-modal/PolicyModal";
-
+import dayjs from "dayjs";
 const apiUrl = process.env.REACT_APP_API_KEY as string;
-
+const getSavedDate = () => {
+  const date = localStorage.getItem("date");
+  return date ? JSON.parse(date) : {};
+};
 const CreatePolicyForm = () => {
+  const { start = null, end = null } = getSavedDate();
+
   const [inputList, setInputList] = useState([{ add: "", cross: "" }]);
   const [personName, setPersonName] = useState<string[]>([]);
   const [applicableToValues, setApplicableToValues] = useState([]);
@@ -43,10 +48,12 @@ const CreatePolicyForm = () => {
   const [isPolicyActivated, setIsPolicyActivated] = useState(true);
   const [startDateValue, setStartDateValue] = useState<any>(null);
   const [endDateValue, setEndDateValue] = useState<any>(null);
+  const [rulesJson, setRulesJson] = useState<any>(null);
   const [isPolicyCreationSuccessful, setIsPolicyCreationSuccessful] =
     useState<boolean>(false);
 
   const policyFormDataAndActions = usePolicyForm();
+
   const navigate = useNavigate();
   const {
     register,
@@ -114,14 +121,14 @@ const CreatePolicyForm = () => {
       );
       // policyFormDataAndActions.updateApplicableTo(personName);
       policyFormDataAndActions.updateRules(existingFormData.rules);
-      policyFormDataAndActions.updateStartDate(existingFormData.startDate);
-      policyFormDataAndActions.updateEndDate(existingFormData.endDate);
+      policyFormDataAndActions.updateStartDate(start);
+      policyFormDataAndActions.updateEndDate(end);
     };
   }, []);
 
   const handleModalClose = () => {
     setIsPolicyCreationSuccessful(false);
-    navigate("/dashBoard");
+    navigate("/");
   };
 
   const handleActivateSwitch = () => {
@@ -139,6 +146,74 @@ const CreatePolicyForm = () => {
       policyFormDataAndActions.updateApplicableTo(
         typeof value === "string" ? value.split(",") : value
       );
+      const presentExistingFormData = getValues();
+
+      setRulesJson({
+        context: {
+          action: "policy",
+          domain: "mobility",
+          location: {
+            country: "IND",
+            city: "080",
+          },
+          version: "1.0.0",
+        },
+        message: {
+          policy: {
+            id: "1",
+            owner: {
+              descriptor: {
+                name: presentExistingFormData.owner,
+                contact: {
+                  email: "support@moh.gov.in",
+                },
+              },
+            },
+            descriptor: {
+              name: presentExistingFormData.name,
+              short_desc: presentExistingFormData.description,
+              "	media": [
+                {
+                  mimetype: "application/pdf",
+                  url: presentExistingFormData.policyDocument,
+                },
+              ],
+            },
+            type: policyType,
+            coverage: [
+              {
+                spatial: [
+                  {
+                    country: "IND",
+                    city: "std:080",
+                  },
+                ],
+                temporal: [
+                  {
+                    range: {
+                      start: convertUtcToYYMMDD(startDateValue),
+                      end: convertUtcToYYMMDD(endDateValue),
+                    },
+                  },
+                ],
+                subscribers: [
+                  {
+                    type: "bap",
+                  },
+                  {
+                    type: "bpp",
+                  },
+                ],
+              },
+            ],
+            geofences: [
+              {
+                polygon: policyFormDataAndActions.polygon,
+              },
+            ],
+          },
+        },
+      });
     },
     []
   );
@@ -166,6 +241,15 @@ const CreatePolicyForm = () => {
   const handleAddClick = () => {
     setInputList([...inputList, { add: "", cross: "" }]);
   };
+
+  useEffect(() => {
+    if (startDateValue || endDateValue) {
+      localStorage.setItem(
+        "date",
+        JSON.stringify({ start: startDateValue, end: endDateValue })
+      );
+    }
+  }, [startDateValue, endDateValue]);
 
   return (
     <Box width={"100%"}>
@@ -296,6 +380,7 @@ const CreatePolicyForm = () => {
                     className="date-start"
                     onChange={(newValue) => setStartDateValue(newValue)}
                     label="Select ‘from’ date "
+                    defaultValue={dayjs(start)}
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -313,6 +398,8 @@ const CreatePolicyForm = () => {
                     className="date-start"
                     onChange={(newValue) => setEndDateValue(newValue)}
                     label="Select ‘to’ date"
+                    defaultValue={dayjs(end)}
+                    //value={endDateValue}
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -399,11 +486,18 @@ const CreatePolicyForm = () => {
           )}
           <Box className={"Rules"} mt={3.5}>
             <label>Rules</label>
-            <textarea {...register("rules", { required: true })}></textarea>
+            <textarea
+              value={
+                rulesJson !== null
+                  ? JSON.stringify(rulesJson, undefined, 2)
+                  : ""
+              }
+              {...register("rules", { required: true })}
+            ></textarea>
           </Box>
           <Box className={"footer-btn"} mt={3.5}>
             <Box
-              onClick={() => navigate("/dashBoard")}
+              onClick={() => navigate("/")}
               component={"button"}
               className={"back"}
             >

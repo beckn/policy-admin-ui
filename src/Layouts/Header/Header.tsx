@@ -48,7 +48,7 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              Policy Summary
+              Policy Summary 1
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 0 }} display="flex" alignItems={"center"}>
