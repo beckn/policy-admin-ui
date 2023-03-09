@@ -94,7 +94,7 @@ function PolicyDetails() {
               setIsModalOpen(true);
               axios
                 .post(
-                  "https://api.mobility-bap-policy.becknprotocol.io:8082/v1/policy/broadcast/update",
+                  "https://api.mobility-bap-policy.becknprotocol.io/v1/policy/broadcast/update",
                   payloadForBrodcastUpdate(policyDetails, "inactive")
                 )
                 .then((res) => console.log("brodcast res", res))
