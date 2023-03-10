@@ -75,7 +75,6 @@ const CreatePolicyForm = () => {
       city: policyFormDataAndActions.city,
     },
   });
-
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     data["startDate"] = convertUtcToYYMMDD(`${startDateValue}`);
     data["endDate"] = convertUtcToYYMMDD(`${endDateValue}`);
@@ -133,8 +132,8 @@ const CreatePolicyForm = () => {
       );
       // policyFormDataAndActions.updateApplicableTo(personName);
       policyFormDataAndActions.updateRules(existingFormData.rules);
-      policyFormDataAndActions.updateStartDate(start);
-      policyFormDataAndActions.updateEndDate(end);
+      policyFormDataAndActions.updateStartDate(startDateValue);
+      policyFormDataAndActions.updateEndDate(endDateValue);
     };
   }, []);
 
@@ -281,7 +280,15 @@ const CreatePolicyForm = () => {
       }
     });
   }, []);
-
+  
+  useEffect(() => {
+    if (startDateValue || endDateValue) {
+      localStorage.setItem(
+        "date",
+        JSON.stringify({ start: startDateValue, end: endDateValue })
+      );
+    }
+  }, [startDateValue, endDateValue]);
   return (
     <Box width={"100%"}>
       <PolicyModal
