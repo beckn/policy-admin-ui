@@ -33,7 +33,7 @@ import {
 import axios from "axios";
 import PolicyModal from "../../Components/Policy-modal/PolicyModal";
 import { GeoLocations } from "../../Common/GeoLocation";
-import dayjs from "dayjs";
+import { Dayjs } from "dayjs";
 const apiUrl = process.env.REACT_APP_API_KEY as string;
 const getSavedDate = () => {
   const date = localStorage.getItem("date");
@@ -117,6 +117,14 @@ const CreatePolicyForm = () => {
     if (policyFormDataAndActions.city !== "") {
       setCity(policyFormDataAndActions.city);
     }
+
+    if (policyFormDataAndActions.startDate !== null) {
+      setStartDateValue(policyFormDataAndActions.startDate);
+    }
+
+    if (policyFormDataAndActions.endDate !== null) {
+      setEndDateValue(policyFormDataAndActions.endDate);
+    }
   }, []);
 
   useEffect(() => {
@@ -135,7 +143,7 @@ const CreatePolicyForm = () => {
       policyFormDataAndActions.updateStartDate(startDateValue);
       policyFormDataAndActions.updateEndDate(endDateValue);
     };
-  }, []);
+  }, [startDateValue, endDateValue]);
 
   const handleModalClose = () => {
     setIsPolicyCreationSuccessful(false);
@@ -280,15 +288,15 @@ const CreatePolicyForm = () => {
       }
     });
   }, []);
-  
-  useEffect(() => {
-    if (startDateValue || endDateValue) {
-      localStorage.setItem(
-        "date",
-        JSON.stringify({ start: startDateValue, end: endDateValue })
-      );
-    }
-  }, [startDateValue, endDateValue]);
+
+  const handleStartDateChange = (newValue: Dayjs | null) => {
+    setStartDateValue(newValue);
+  };
+
+  const handleEndDateChange = (newValue: Dayjs | null) => {
+    setEndDateValue(newValue);
+  };
+
   return (
     <Box width={"100%"}>
       <PolicyModal
@@ -475,9 +483,9 @@ const CreatePolicyForm = () => {
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
                     className="date-start"
-                    onChange={(newValue) => setStartDateValue(newValue)}
+                    value={startDateValue}
+                    onChange={handleStartDateChange}
                     label="Select ‘from’ date "
-                    defaultValue={dayjs(start)}
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -493,10 +501,9 @@ const CreatePolicyForm = () => {
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
                     className="date-start"
-                    onChange={(newValue) => setEndDateValue(newValue)}
+                    onChange={handleEndDateChange}
                     label="Select ‘to’ date"
-                    defaultValue={dayjs(end)}
-                    //value={endDateValue}
+                    value={endDateValue}
                   />
                 </DemoContainer>
               </LocalizationProvider>

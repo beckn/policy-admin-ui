@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { create } from "zustand";
 
 export interface IFormPolicy {
@@ -10,8 +11,8 @@ export interface IFormPolicy {
   policyDocument: string;
   applicableTo: string | string[];
   rules: any;
-  startDate: string;
-  endDate: string;
+  startDate: Dayjs | null;
+  endDate: Dayjs | null;
   polygon: string[];
   updatePolicyName: (newPolicyName: string) => void;
   updatePolicyType: (newPolicyType: string) => void;
@@ -22,8 +23,8 @@ export interface IFormPolicy {
   updatePolicyDocument: (newPolicyDocument: string) => void;
   updateApplicableTo: (newApplicableTo: string | string[]) => void;
   updateRules: (newRules: string) => void;
-  updateStartDate: (newStartDate: string) => void;
-  updateEndDate: (newEndDate: string) => void;
+  updateStartDate: (newStartDate: any) => void;
+  updateEndDate: (newEndDate: any) => void;
   updatePolygon: (newPolygon: any) => void;
 }
 
@@ -37,8 +38,8 @@ export const usePolicyForm = create<IFormPolicy>((set) => ({
   policyDocument: "",
   applicableTo: "",
   rules: null,
-  startDate: "",
-  endDate: "",
+  startDate: null,
+  endDate: null,
   polygon: [],
   updatePolicyName: (newPolicyName: string) =>
     set({ policyName: newPolicyName }),
@@ -55,7 +56,8 @@ export const usePolicyForm = create<IFormPolicy>((set) => ({
   updateApplicableTo: (newApplicableTo: string | string[]) =>
     set({ applicableTo: newApplicableTo }),
   updateRules: (newRules: any) => set({ rules: newRules }),
-  updateStartDate: (newStartDate: string) => set({ startDate: newStartDate }),
-  updateEndDate: (newEndDate: string) => set({ endDate: newEndDate }),
+  updateStartDate: (newStartDate: Dayjs | null) =>
+    set({ startDate: newStartDate }),
+  updateEndDate: (newEndDate: Dayjs | null) => set({ endDate: newEndDate }),
   updatePolygon: (newPolygon: any) => set({ polygon: newPolygon }),
 }));
