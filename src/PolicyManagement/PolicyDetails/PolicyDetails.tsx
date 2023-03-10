@@ -260,16 +260,9 @@ function PolicyDetails() {
                 fontSize="14px"
                 color={"#004E92"}
               >
-                https:beckn.in/Gurugram/quarantinezone.pdf 1
+                {policyDetails.policyDocument}
               </Typography>
-              <Typography
-                variant="subtitle2"
-                gutterBottom
-                fontSize="14px"
-                color={"#004E92"}
-              >
-                https:beckn.in/Gurugram/quarantinezone.pdf 1
-              </Typography>
+              
             </Box>
             <Box width={"50%"} className="Applicable-to">
               <Typography fontWeight={600} fontSize="14px" mb={1}>
