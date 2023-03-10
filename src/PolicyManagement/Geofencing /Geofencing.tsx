@@ -38,8 +38,8 @@ function Geofencing() {
     setCoordinates([...coordinates, coordinate]);
     setCoordinatesForForm([
       ...coordinatesForForm,
-      `${event.latLng.lat()}`,
-      `${event.latLng.lng()}`,
+      `${event.latLng.lat()},${event.latLng.lng()}`,
+
     ]);
   };
 
