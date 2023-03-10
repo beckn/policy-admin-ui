@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { Box, Typography } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   useJsApiLoader,
   GoogleMap,
@@ -38,15 +39,25 @@ function Geofencing() {
     setCoordinates([...coordinates, coordinate]);
     setCoordinatesForForm([
       ...coordinatesForForm,
-      `${event.latLng.lat()}`,
-      `${event.latLng.lng()}`,
+      `${event.latLng.lat()},${event.latLng.lng()}`,
+
     ]);
   };
+
+  useEffect(() => {
+    const coordinatesData = policyFormDataAndActions.polygon;
+    const CordinateResult = coordinatesData.map(location=> {
+      const [lat,lng]=location.split(',')
+      return ({lat:parseFloat(lat),lng:parseFloat(lng)})
+    })
+    if (policyFormDataAndActions.polygon.length !== 0) {
+      setCoordinates(CordinateResult);
+    }
+  }, []);
 
   const onLoad = useCallback(function callback(map: any) {
     setMap(map);
   }, []);
-
   const onUnmount = useCallback(function callback(map: any) {
     setMap(null);
   }, []);
