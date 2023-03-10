@@ -98,6 +98,7 @@ export default function DashboardTabs() {
   }, []);
 
   useEffect(() => {
+    console.log('comp rendered')
     changeDateFormatOfPolicy(policyArray);
   });
 
