@@ -32,6 +32,7 @@ import {
 } from "./CreatePolicyForm.utils";
 import axios from "axios";
 import PolicyModal from "../../Components/Policy-modal/PolicyModal";
+import { GeoLocations } from "../../Common/GeoLocation";
 import dayjs from "dayjs";
 const apiUrl = process.env.REACT_APP_API_KEY as string;
 const getSavedDate = () => {
@@ -45,10 +46,13 @@ const CreatePolicyForm = () => {
   const [personName, setPersonName] = useState<string[]>([]);
   const [applicableToValues, setApplicableToValues] = useState([]);
   const [policyType, setPolicyType] = useState<string>("");
+  const [country, setCountry] = useState<string>("India");
+  const [city, setCity] = useState<string>("Banglore");
   const [isPolicyActivated, setIsPolicyActivated] = useState(true);
   const [startDateValue, setStartDateValue] = useState<any>(null);
   const [endDateValue, setEndDateValue] = useState<any>(null);
   const [rulesJson, setRulesJson] = useState<any>(null);
+  const [geofence, setGeoFence] = useState<any>(false);
   const [isPolicyCreationSuccessful, setIsPolicyCreationSuccessful] =
     useState<boolean>(false);
 
@@ -65,13 +69,12 @@ const CreatePolicyForm = () => {
       name: policyFormDataAndActions.policyName,
       owner: policyFormDataAndActions.policyOwner,
       description: policyFormDataAndActions.description,
-      country: policyFormDataAndActions.country,
-      city: policyFormDataAndActions.city,
       policyDocument: policyFormDataAndActions.policyDocument,
       rules: policyFormDataAndActions.rules,
+      country: policyFormDataAndActions.country,
+      city: policyFormDataAndActions.city,
     },
   });
-
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     data["startDate"] = convertUtcToYYMMDD(`${startDateValue}`);
     data["endDate"] = convertUtcToYYMMDD(`${endDateValue}`);
@@ -82,6 +85,8 @@ const CreatePolicyForm = () => {
     data["status"] = isPolicyActivated ? "active" : "inactive";
     data["createdBy"] = "ujjwal";
     data["contactEmail"] = "test.user1@gmail.com";
+    data["country"] = country;
+    data["city"] = city;
 
     const createPolicyPayload = {
       policy: data,
@@ -104,6 +109,14 @@ const CreatePolicyForm = () => {
     if (policyFormDataAndActions.applicableTo) {
       setPersonName(policyFormDataAndActions.applicableTo as string[]);
     }
+
+    if (policyFormDataAndActions.country !== "") {
+      setCountry(policyFormDataAndActions.country);
+    }
+
+    if (policyFormDataAndActions.city !== "") {
+      setCity(policyFormDataAndActions.city);
+    }
   }, []);
 
   useEffect(() => {
@@ -114,15 +127,13 @@ const CreatePolicyForm = () => {
       // policyFormDataAndActions.updatePolicyType(policyType);
       policyFormDataAndActions.updatePolicyOwner(existingFormData.owner);
       policyFormDataAndActions.updateDescription(existingFormData.description);
-      policyFormDataAndActions.updateCountry(existingFormData.country);
-      policyFormDataAndActions.updateCity(existingFormData.city);
       policyFormDataAndActions.updatePolicyDocument(
         existingFormData.policyDocument
       );
       // policyFormDataAndActions.updateApplicableTo(personName);
       policyFormDataAndActions.updateRules(existingFormData.rules);
-      policyFormDataAndActions.updateStartDate(start);
-      policyFormDataAndActions.updateEndDate(end);
+      policyFormDataAndActions.updateStartDate(startDateValue);
+      policyFormDataAndActions.updateEndDate(endDateValue);
     };
   }, []);
 
@@ -242,6 +253,34 @@ const CreatePolicyForm = () => {
     setInputList([...inputList, { add: "", cross: "" }]);
   };
 
+  const selectedCountry = country;
+
+  const selectedCountryObj = GeoLocations.filter(
+    (location) => location.country.countryNmae === selectedCountry
+  )[0];
+
+  const handleCountryChange = useCallback((event: any) => {
+    setCountry(event.target.value);
+    policyFormDataAndActions.updateCountry(event.target.value);
+    setCity("");
+  }, []);
+  const handleCityChange = useCallback((event: any) => {
+    setCity(event.target.value);
+    policyFormDataAndActions.updateCity(event.target.value);
+  }, []);
+
+  useEffect(() => {
+    saveGeoFence();
+  }, [country]);
+
+  const saveGeoFence = useCallback(() => {
+    policyFormDataAndActions.polygon.map((item, i) => {
+      if (item !== "") {
+        setGeoFence(true);
+      }
+    });
+  }, []);
+  
   useEffect(() => {
     if (startDateValue || endDateValue) {
       localStorage.setItem(
@@ -250,7 +289,6 @@ const CreatePolicyForm = () => {
       );
     }
   }, [startDateValue, endDateValue]);
-
   return (
     <Box width={"100%"}>
       <PolicyModal
@@ -347,21 +385,80 @@ const CreatePolicyForm = () => {
           <Box
             display={"flex"}
             justifyContent={"space-between"}
+            flexWrap={"wrap"}
             className={"country-row"}
           >
             <Box>
               <label>Country</label>
-              <input
+              {/* <input
                 placeholder="Enter country name"
                 {...register("country")}
-              />
+              /> */}
+              <FormControl
+                sx={{ m: 1, width: 300, mt: 3 }}
+                className="select-policy-container"
+              >
+                <Select
+                  className="select-policy"
+                  displayEmpty
+                  value={country}
+                  onChange={handleCountryChange}
+                  input={<OutlinedInput />}
+                  renderValue={(selected) => {
+                    if (selected.length === 0) {
+                      return <span>select</span>;
+                    }
+
+                    return selected;
+                  }}
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  <MenuItem disabled value="">
+                    <span>select</span>
+                  </MenuItem>
+                  {GeoLocations.map((GeoLocation, i) => (
+                    <MenuItem key={i} value={GeoLocation.country.countryNmae}>
+                      {GeoLocation.country.countryNmae}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Box>
             <Box>
               <label>City</label>
-              <input
+              {/* <input
                 placeholder="Enter city name"
                 {...register("city", { required: true })}
-              />
+              /> */}
+              <FormControl
+                sx={{ m: 1, width: 300, mt: 3 }}
+                className="select-policy-container"
+              >
+                <Select
+                  className="select-policy"
+                  displayEmpty
+                  value={city}
+                  onChange={handleCityChange}
+                  input={<OutlinedInput />}
+                  renderValue={(selected) => {
+                    if (selected.length === 0) {
+                      return <span>select</span>;
+                    }
+
+                    return selected;
+                  }}
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  <MenuItem disabled value="">
+                    <span>select</span>
+                  </MenuItem>
+                  {selectedCountryObj.country.cities.map((city, i) => (
+                    <MenuItem key={i} value={city.name}>
+                      {city.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
               {errors.city && <span>This field is required</span>}
             </Box>
@@ -476,12 +573,20 @@ const CreatePolicyForm = () => {
           {policyType === "Geofence" && (
             <Box className={"Geofence"} mt={3.5}>
               <label>Geofence</label>
-              <Box className={"Geofence-inrr"}>
-                <AddIcon />
-                <Link style={{ textDecoration: "none" }} to="/createGeoFence">
-                  <span>Draw geofence on a map</span>
-                </Link>
-              </Box>
+              {geofence ? (
+                <Box className={"Geofence-inrr"}>
+                  <Link style={{ textDecoration: "none" }} to="/createGeoFence">
+                    <span>View geo fence</span>
+                  </Link>
+                </Box>
+              ) : (
+                <Box className={"Geofence-inrr"}>
+                  <AddIcon />
+                  <Link style={{ textDecoration: "none" }} to="/createGeoFence">
+                    <span>Draw geofence on a map</span>
+                  </Link>
+                </Box>
+              )}
             </Box>
           )}
           <Box className={"Rules"} mt={3.5}>
