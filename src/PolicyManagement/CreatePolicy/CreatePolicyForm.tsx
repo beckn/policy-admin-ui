@@ -125,6 +125,10 @@ const CreatePolicyForm = () => {
     if (policyFormDataAndActions.endDate !== null) {
       setEndDateValue(policyFormDataAndActions.endDate);
     }
+
+    if (policyFormDataAndActions.endDate !== null) {
+      setRulesJson(policyFormDataAndActions.rules);
+    }
   }, []);
 
   useEffect(() => {
@@ -138,12 +142,11 @@ const CreatePolicyForm = () => {
       policyFormDataAndActions.updatePolicyDocument(
         existingFormData.policyDocument
       );
-      // policyFormDataAndActions.updateApplicableTo(personName);
-      policyFormDataAndActions.updateRules(existingFormData.rules);
+      policyFormDataAndActions.updateRules(rulesJson);
       policyFormDataAndActions.updateStartDate(startDateValue);
       policyFormDataAndActions.updateEndDate(endDateValue);
     };
-  }, [startDateValue, endDateValue]);
+  }, [startDateValue, endDateValue, rulesJson]);
 
   const handleModalClose = () => {
     setIsPolicyCreationSuccessful(false);
@@ -234,7 +237,7 @@ const CreatePolicyForm = () => {
         },
       });
     },
-    []
+    [startDateValue, endDateValue]
   );
 
   const handlePolicyChange = useCallback((event: any) => {
@@ -604,7 +607,7 @@ const CreatePolicyForm = () => {
                   ? JSON.stringify(rulesJson, undefined, 2)
                   : ""
               }
-              {...register("rules", { required: true })}
+              {...register("rules")}
             ></textarea>
           </Box>
           <Box className={"footer-btn"} mt={3.5}>
