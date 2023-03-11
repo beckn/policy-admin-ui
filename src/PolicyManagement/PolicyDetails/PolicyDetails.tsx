@@ -144,7 +144,10 @@ function PolicyDetails() {
   if (policyDetails === null) {
     return <></>;
   }
-
+  const getRules=(rule:'string'|'object')=> {
+    if(typeof rule==='string') return rule;
+   return JSON.stringify(rule)
+  }
   return (
     <>
       {isModalOpen && (
@@ -304,7 +307,7 @@ function PolicyDetails() {
               "https://i.dummyjson.com/data/products/11/2.jpg",
               "https://i.dummyjson.com/data/products/11/3.jpg",
               "https://i.dummyjson.com/data/products/11/thumbnail.jpg"] */}
-              {policyDetails.rules}
+              {getRules(policyDetails.rules)}
             </Typography>
           </Box>
         </Box>
