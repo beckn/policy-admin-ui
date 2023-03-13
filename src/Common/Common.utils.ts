@@ -17,3 +17,10 @@ export const convertUtcToYYMMDD = (dateString: string) => {
 
   return [date.getFullYear(), mnth, day].join("-");
 };
+export const convertUtcToDDMMYY = (dateString: string) => {
+  let date = new Date(dateString),
+    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+    day = ("0" + date.getDate()).slice(-2);
+
+  return [day, mnth, date.getFullYear()].join("-");
+};
