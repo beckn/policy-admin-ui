@@ -6,6 +6,7 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import "./Table.css";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 export interface TableModelProps {
   rows?: any;
@@ -31,12 +32,14 @@ const columns: GridColDef[] = [
     type: "date",
     width: 180,
     editable: true,
+    valueFormatter: (params) => dayjs(params.value).format("DD/MM/YYYY"),
   },
   {
     field: "endDate",
     headerName: "End Date",
     width: 180,
     type: "date",
+    valueFormatter: (params) => dayjs(params.value).format("DD/MM/YYYY"),
   },
 ];
 
@@ -62,10 +65,11 @@ export default function Table(props: TableModelProps) {
           marginBottom: "20px",
         }}
       >
-        All Policies ({props.rows.length||0})
+        All Policies ({props.rows.length || 0})
       </Box>
       <Box sx={{ height: 318 }}>
         <DataGrid
+          style={{ cursor: "pointer" }}
           rows={props.rows}
           onRowClick={(row) => navigate(`/policyDetails/:${row.id}`)}
           columns={columns}

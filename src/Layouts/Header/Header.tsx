@@ -57,7 +57,7 @@ function ResponsiveAppBar() {
             </Tooltip>
             <Box marginLeft={"15px"}>
               <Typography textAlign="left" color={"#000000"} fontSize="16px">
-                John Deo
+                Satya
               </Typography>
               <Typography textAlign="left" color={"#000000"} fontSize="12px">
                 Admin
