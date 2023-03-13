@@ -18,6 +18,8 @@ import {
   payloadForBrodcast,
   payloadForBrodcastUpdate,
 } from "./PolicyDetails.utils";
+import ViewGeofencing from "../Geofencing /ViewGeofencing";
+
 
 const apiUrl = process.env.REACT_APP_API_KEY as string;
 
@@ -38,6 +40,7 @@ function PolicyDetails() {
     policySubTitle: "",
     modalIcon: "",
   });
+  const [showGeoFence,setShowGeoFence] = useState(false)
   const firstRender = useRef(true);
 
   const handlePolicyChange = (event: any, val: any) => {
@@ -140,13 +143,19 @@ function PolicyDetails() {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
+  
 
   if (policyDetails === null) {
     return <></>;
   }
+
   const getRules=(rule:'string'|'object')=> {
     if(typeof rule==='string') return rule;
    return JSON.stringify(rule)
+  }
+
+  if(showGeoFence){
+    return <ViewGeofencing coordinates={policyDetails.polygon} hideGeofence={setShowGeoFence} />
   }
   return (
     <>
@@ -285,8 +294,10 @@ function PolicyDetails() {
             <Typography
               variant="subtitle2"
               gutterBottom
+              className="button"
               fontSize="14px"
               color={"#004E92"}
+              onClick={()=> setShowGeoFence(!showGeoFence)}
             >
               Click to view
             </Typography>

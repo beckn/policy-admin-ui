@@ -67,6 +67,9 @@
 .status[aria-selected="true"] {
   display: none;
 }
+.button {
+  cursor: pointer;
+}
 @media screen and (min-width: 678px) and (max-width: 1024px) {
   .policy-doc {
     width: 77% !important;
