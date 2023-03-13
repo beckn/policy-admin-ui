@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import Table from "../../Components/Table/Table";
 import axios from "axios";
 import { formatDate } from "../../Common/Common.utils";
+import ResponsiveAppBar from "../../Layouts/Header/Header";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -121,53 +122,60 @@ export default function DashboardTabs() {
 
   return (
     <>
-      {policyStates.map((policyState: string) => {
-        return (
-          <Card
-            cardText={policyState}
-            textCount={activePolicyCount(policyState)}
-          />
-        );
-      })}
-      <Box sx={{ width: "100%" }} marginTop="40px" className={"tab-container"}>
+      <ResponsiveAppBar HeaderText={"Policy Summary"} />
+      <Box className="policy-wrapper">
+        {policyStates.map((policyState: string) => {
+          return (
+            <Card
+              cardText={policyState}
+              textCount={activePolicyCount(policyState)}
+            />
+          );
+        })}
         <Box
-          sx={{ borderBottom: 1, borderColor: "divider" }}
-          display="flex"
-          justifyContent="space-between"
-          margin={"15px"}
+          sx={{ width: "100%" }}
+          marginTop="40px"
+          className={"tab-container"}
         >
-          <Tabs value={value} onChange={handleChange} className="tabs">
-            <Tab className="tab" label=" All" {...a11yProps(0)} />
-            <Tab className="tab" label="Active" {...a11yProps(1)} />
-            <Tab className="tab" label="Inactive" {...a11yProps(2)} />
-            <Tab className="tab" label="Published" {...a11yProps(3)} />
-          </Tabs>
           <Box
-            display={"flex"}
-            alignItems={"center"}
-            style={{ cursor: "pointer" }}
+            sx={{ borderBottom: 1, borderColor: "divider" }}
+            display="flex"
+            justifyContent="space-between"
+            margin={"15px"}
           >
-            <AddIcon />
-            <Link style={{ textDecoration: "none" }} to="/createPolicy">
-              <Tab className="createPolicy" label="Create new Policy" />
-            </Link>
+            <Tabs value={value} onChange={handleChange} className="tabs">
+              <Tab className="tab" label=" All" {...a11yProps(0)} />
+              <Tab className="tab" label="Active" {...a11yProps(1)} />
+              <Tab className="tab" label="Inactive" {...a11yProps(2)} />
+              <Tab className="tab" label="Published" {...a11yProps(3)} />
+            </Tabs>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              style={{ cursor: "pointer" }}
+            >
+              <AddIcon />
+              <Link style={{ textDecoration: "none" }} to="/createPolicy">
+                <Tab className="createPolicy" label="Create new Policy" />
+              </Link>
+            </Box>
           </Box>
+
+          <TabPanel value={value} index={0}>
+            {/* <img src="/assets/empty.svg" alt="" style={{ margin: "0 auto" }} /> */}
+            <Table rows={policyArray} />
+          </TabPanel>
+
+          <TabPanel value={value} index={1}>
+            <Table rows={activePolicyArray} />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Table rows={inActivePolicyArray} />
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <Table rows={publishedPolicyArray} />
+          </TabPanel>
         </Box>
-
-        <TabPanel value={value} index={0}>
-          {/* <img src="/assets/empty.svg" alt="" style={{ margin: "0 auto" }} /> */}
-          <Table rows={policyArray} />
-        </TabPanel>
-
-        <TabPanel value={value} index={1}>
-          <Table rows={activePolicyArray} />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <Table rows={inActivePolicyArray} />
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          <Table rows={publishedPolicyArray} />
-        </TabPanel>
       </Box>
     </>
   );

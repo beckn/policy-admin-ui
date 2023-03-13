@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect } from "react";
 import {
+  Checkbox,
   Divider,
   FormControl,
   FormControlLabel,
   FormGroup,
+  ListItemIcon,
+  ListItemText,
   MenuItem,
   OutlinedInput,
   Select,
@@ -34,6 +37,7 @@ import axios from "axios";
 import PolicyModal from "../../Components/Policy-modal/PolicyModal";
 import { GeoLocations } from "../../Common/GeoLocation";
 import { Dayjs } from "dayjs";
+import ResponsiveAppBar from "../../Layouts/Header/Header";
 const apiUrl = process.env.REACT_APP_API_KEY as string;
 const getSavedDate = () => {
   const date = localStorage.getItem("date");
@@ -59,6 +63,9 @@ const CreatePolicyForm = () => {
   const policyFormDataAndActions = usePolicyForm();
 
   const navigate = useNavigate();
+  const isAllSelected =
+    anotherNames.length > 0 && personName.length === anotherNames.length;
+
   const {
     register,
     handleSubmit,
@@ -75,6 +82,7 @@ const CreatePolicyForm = () => {
       city: policyFormDataAndActions.city,
     },
   });
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     data["startDate"] = convertUtcToYYMMDD(`${startDateValue}`);
     data["endDate"] = convertUtcToYYMMDD(`${endDateValue}`);
@@ -301,241 +309,243 @@ const CreatePolicyForm = () => {
   };
 
   return (
-    <Box width={"100%"}>
-      <PolicyModal
-        handleClose={handleModalClose}
-        open={isPolicyCreationSuccessful}
-        policyTitle="Policy has been created!"
-        policySubTitle="Policy activation was a success. Your policy will take effect once it has been ‘Published’. "
-        modalIcon="/assets/activePolicy.svg"
-        policyButtonText="Okay"
-      />
-      <Box className={"form-container"}>
-        <Box
-          display={"flex"}
-          justifyContent={"space-between"}
-          className={"addPolicy-container"}
-        >
-          <Typography width={"50%"}>Add policy details</Typography>
-          <Box display={"flex"} alignItems={"center"}>
-            <Typography pr={3}>Activate</Typography>
-            <FormGroup>
-              <FormControlLabel
-                label=""
-                control={
-                  <SwitchBtn
-                    onChange={handleActivateSwitch}
-                    checked={isPolicyActivated}
-                  />
-                }
-              />
-            </FormGroup>
-          </Box>
-        </Box>
-        <Divider className="devider" />
-        <form onSubmit={handleSubmit(onSubmit)} className="policy-form">
+    <>
+      <ResponsiveAppBar HeaderText={"New Policy"} />
+      <Box width={"100%"} className="policy-wrapper">
+        <PolicyModal
+          handleClose={handleModalClose}
+          open={isPolicyCreationSuccessful}
+          policyTitle="Policy has been created!"
+          policySubTitle="Policy activation was a success. Your policy will take effect once it has been ‘Published’. "
+          modalIcon="/assets/activePolicy.svg"
+          policyButtonText="Okay"
+        />
+        <Box className={"form-container"}>
           <Box
             display={"flex"}
             justifyContent={"space-between"}
-            className={"row-form"}
+            className={"addPolicy-container"}
           >
-            <Box>
-              <label>Policy Name</label>
-              <input placeholder="Enter Policy Name" {...register("name")} />
+            <Typography width={"50%"}>Add policy details</Typography>
+            <Box display={"flex"} alignItems={"center"}>
+              <Typography pr={3}>Activate</Typography>
+              <FormGroup>
+                <FormControlLabel
+                  label=""
+                  control={
+                    <SwitchBtn
+                      onChange={handleActivateSwitch}
+                      checked={isPolicyActivated}
+                    />
+                  }
+                />
+              </FormGroup>
             </Box>
-            <Box>
-              <label>Policy Type</label>
-              {/* <input {...register("exampleRequired", { required: true })} /> */}
-              <FormControl
-                sx={{ m: 1, width: 300, mt: 3 }}
-                className="select-policy-container"
-              >
-                <Select
-                  className="select-policy"
-                  displayEmpty
-                  value={policyType}
-                  onChange={handlePolicyChange}
-                  input={<OutlinedInput />}
-                  renderValue={(selected) => {
-                    if (selected.length === 0) {
-                      return <span>Select</span>;
-                    }
-
-                    return selected;
-                  }}
-                  inputProps={{ "aria-label": "Without label" }}
+          </Box>
+          <Divider className="devider" />
+          <form onSubmit={handleSubmit(onSubmit)} className="policy-form">
+            <Box
+              display={"flex"}
+              justifyContent={"space-between"}
+              className={"row-form"}
+            >
+              <Box>
+                <label>Policy Name</label>
+                <input placeholder="Enter Policy Name" {...register("name")} />
+              </Box>
+              <Box>
+                <label>Policy Type</label>
+                {/* <input {...register("exampleRequired", { required: true })} /> */}
+                <FormControl
+                  sx={{ m: 1, width: 300, mt: 3 }}
+                  className="select-policy-container"
                 >
-                  <MenuItem disabled value="">
-                    <span>Select</span>
-                  </MenuItem>
-                  {policyTypes.map((policyType, i) => (
-                    <MenuItem key={i} value={policyType}>
-                      {policyType}
+                  <Select
+                    className="select-policy"
+                    displayEmpty
+                    value={policyType}
+                    onChange={handlePolicyChange}
+                    input={<OutlinedInput />}
+                    renderValue={(selected) => {
+                      if (selected.length === 0) {
+                        return <span>Select</span>;
+                      }
+
+                      return selected;
+                    }}
+                    inputProps={{ "aria-label": "Without label" }}
+                  >
+                    <MenuItem disabled value="">
+                      <span>Select</span>
                     </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              {errors.type && <span>This field is required</span>}
+                    {policyTypes.map((policyType, i) => (
+                      <MenuItem key={i} value={policyType}>
+                        {policyType}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {errors.type && <span>This field is required</span>}
+              </Box>
+              <Box>
+                <label>Policy Owner</label>
+                <input
+                  placeholder="Enter Policy Owner Name"
+                  {...register("owner", { required: true })}
+                />
+                {errors.owner && <span>This field is required</span>}
+              </Box>
             </Box>
             <Box>
-              <label>Policy Owner</label>
-              <input
-                placeholder="Enter Policy Owner Name"
-                {...register("owner", { required: true })}
+              <label>Description</label>
+              <textarea
+                placeholder="Add policy description"
+                {...register("description")}
               />
-              {errors.owner && <span>This field is required</span>}
             </Box>
-          </Box>
-          <Box>
-            <label>Description</label>
-            <textarea
-              placeholder="Add policy description"
-              {...register("description")}
-            />
-          </Box>
-          <Box
-            display={"flex"}
-            justifyContent={"space-between"}
-            flexWrap={"wrap"}
-            className={"country-row"}
-          >
-            <Box>
-              <label>Country</label>
-              {/* <input
+            <Box
+              display={"flex"}
+              justifyContent={"space-between"}
+              flexWrap={"wrap"}
+              className={"country-row"}
+            >
+              <Box>
+                <label>Country</label>
+                {/* <input
                 placeholder="Enter country name"
                 {...register("country")}
               /> */}
-              <FormControl
-                sx={{ m: 1, width: 300, mt: 3 }}
-                className="select-policy-container"
-              >
-                <Select
-                  className="select-policy"
-                  displayEmpty
-                  value={country}
-                  onChange={handleCountryChange}
-                  input={<OutlinedInput />}
-                  renderValue={(selected) => {
-                    if (selected.length === 0) {
-                      return <span>select</span>;
-                    }
-
-                    return selected;
-                  }}
-                  inputProps={{ "aria-label": "Without label" }}
+                <FormControl
+                  sx={{ m: 1, width: 300, mt: 3 }}
+                  className="select-policy-container"
                 >
-                  <MenuItem disabled value="">
-                    <span>select</span>
-                  </MenuItem>
-                  {GeoLocations.map((GeoLocation, i) => (
-                    <MenuItem key={i} value={GeoLocation.country.countryNmae}>
-                      {GeoLocation.country.countryNmae}
+                  <Select
+                    className="select-policy"
+                    displayEmpty
+                    value={country}
+                    onChange={handleCountryChange}
+                    input={<OutlinedInput />}
+                    renderValue={(selected) => {
+                      if (selected.length === 0) {
+                        return <span>select</span>;
+                      }
+
+                      return selected;
+                    }}
+                    inputProps={{ "aria-label": "Without label" }}
+                  >
+                    <MenuItem disabled value="">
+                      <span>select</span>
                     </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-            <Box>
-              <label>City</label>
-              {/* <input
+                    {GeoLocations.map((GeoLocation, i) => (
+                      <MenuItem key={i} value={GeoLocation.country.countryNmae}>
+                        {GeoLocation.country.countryNmae}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box>
+                <label>City</label>
+                {/* <input
                 placeholder="Enter city name"
                 {...register("city", { required: true })}
               /> */}
-              <FormControl
-                sx={{ m: 1, width: 300, mt: 3 }}
-                className="select-policy-container"
-              >
-                <Select
-                  className="select-policy"
-                  displayEmpty
-                  value={city}
-                  onChange={handleCityChange}
-                  input={<OutlinedInput />}
-                  renderValue={(selected) => {
-                    if (selected.length === 0) {
-                      return <span>select</span>;
-                    }
-
-                    return selected;
-                  }}
-                  inputProps={{ "aria-label": "Without label" }}
+                <FormControl
+                  sx={{ m: 1, width: 300, mt: 3 }}
+                  className="select-policy-container"
                 >
-                  <MenuItem disabled value="">
-                    <span>select</span>
-                  </MenuItem>
-                  {selectedCountryObj.country.cities.map((city, i) => (
-                    <MenuItem key={i} value={city.name}>
-                      {city.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                  <Select
+                    className="select-policy"
+                    displayEmpty
+                    value={city}
+                    onChange={handleCityChange}
+                    input={<OutlinedInput />}
+                    renderValue={(selected) => {
+                      if (selected.length === 0) {
+                        return <span>select</span>;
+                      }
 
-              {errors.city && <span>This field is required</span>}
-            </Box>
-            <Box>
-              <label>From</label>
-              {/* <input
+                      return selected;
+                    }}
+                    inputProps={{ "aria-label": "Without label" }}
+                  >
+                    <MenuItem disabled value="">
+                      <span>select</span>
+                    </MenuItem>
+                    {selectedCountryObj.country.cities.map((city, i) => (
+                      <MenuItem key={i} value={city.name}>
+                        {city.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                {errors.city && <span>This field is required</span>}
+              </Box>
+              <Box>
+                <label>From</label>
+                {/* <input
                 onClick={dateHandler}
                 placeholder="Select ‘from’ date "
                 {...register("startDate", { required: true })}
               />
               {open ? <Calendar date={new Date()} /> : null}
               {errors.startDate && <span>This field is required</span>} */}
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DatePicker
-                    className="date-start"
-                    value={startDateValue}
-                    onChange={handleStartDateChange}
-                    label="Select ‘from’ date "
-                    format="DD-MM-YYYY"
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            </Box>
-            <Box>
-              <label>To</label>
-              {/* <input
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      className="date-start"
+                      value={startDateValue}
+                      onChange={handleStartDateChange}
+                      label="Select ‘from’ date "
+                      format="DD-MM-YYYY"
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Box>
+              <Box>
+                <label>To</label>
+                {/* <input
                 placeholder="Select ‘to’ date "
                 {...register("endDate", { required: true })}
               />
               {errors.endDate && <span>This field is required</span>} */}
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DatePicker
-                    className="date-start"
-                    onChange={handleEndDateChange}
-                    label="Select ‘to’ date"
-                    value={endDateValue}
-                    format="DD-MM-YYYY"
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={["DatePicker"]}>
+                    <DatePicker
+                      className="date-start"
+                      onChange={handleEndDateChange}
+                      label="Select ‘to’ date"
+                      value={endDateValue}
+                      format="DD-MM-YYYY"
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Box>
             </Box>
-          </Box>
-          <Box
-            display={"flex"}
-            justifyContent={"space-between"}
-            className={"policy-doc"}
-            width="70.5%"
-          >
-            <Box>
-              <label>Policy Document</label>
-              {/* <input
+            <Box
+              display={"flex"}
+              justifyContent={"space-between"}
+              className={"policy-doc"}
+              width="70.5%"
+            >
+              <Box>
+                <label>Policy Document</label>
+                {/* <input
               defaultValue="Enter policy document URL"
               {...register("exampleRequired", { required: true })}
             /> */}
 
-              <div className="box-btn">
-                <input
-                  placeholder="Enter policy document URL"
-                  {...register("policyDocument", { required: true })}
-                  // onChange={(e) => handleInputChange(e)}
-                />
-                {/* TODO if the commented code is required */}
+                <div className="box-btn">
+                  <input
+                    placeholder="Enter policy document URL"
+                    {...register("policyDocument", { required: true })}
+                    // onChange={(e) => handleInputChange(e)}
+                  />
+                  {/* TODO if the commented code is required */}
 
-                {/* {inputList.length - 1 === i && (
+                  {/* {inputList.length - 1 === i && (
                       <Box
                         className={"addicon addiconn"}
                         onClick={handleAddClick}
@@ -551,82 +561,92 @@ const CreatePolicyForm = () => {
                         <ClearIcon />
                       </Box>
                     )} */}
-              </div>
-            </Box>
-            <Box className={"applicable-tab"}>
-              <label>Applicable to</label>
-              <Select
-                className="applicable-policy"
-                displayEmpty
-                multiple
-                value={personName}
-                onChange={handleChange}
-                input={<OutlinedInput />}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <span>Select</span>;
-                  }
+                </div>
+              </Box>
+              <Box className={"applicable-tab"}>
+                <label>Applicable to</label>
+                <Select
+                  className="applicable-policy"
+                  displayEmpty
+                  multiple
+                  value={personName}
+                  onChange={handleChange}
+                  input={<OutlinedInput />}
+                  renderValue={(selected) => {
+                    if (selected.length === 0) {
+                      return <span>select</span>;
+                    }
 
-                  return selected.join(", ");
-                }}
-                inputProps={{ "aria-label": "Without label" }}
-              >
-                <MenuItem disabled value="">
-                  <span>Select</span>
-                </MenuItem>
-                {anotherNames.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
+                    return selected.join(", ");
+                  }}
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  <MenuItem disabled value="">
+                    <span>select</span>
                   </MenuItem>
-                ))}
-              </Select>
+                  {anotherNames.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      <ListItemIcon>
+                        <Checkbox checked={personName.indexOf(name) > -1} />
+                      </ListItemIcon>
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
             </Box>
-          </Box>
-          {policyType === "Geofence" && (
-            <Box className={"Geofence"} mt={3.5}>
-              <label>Geofence</label>
-              {geofence ? (
-                <Box className={"Geofence-inrr"}>
-                  <Link style={{ textDecoration: "none" }} to="/createGeoFence">
-                    <span>View geo fence</span>
-                  </Link>
-                </Box>
-              ) : (
-                <Box className={"Geofence-inrr"}>
-                  <AddIcon />
-                  <Link style={{ textDecoration: "none" }} to="/createGeoFence">
-                    <span>Draw geofence on a map</span>
-                  </Link>
-                </Box>
-              )}
+            {policyType === "Geofence" && (
+              <Box className={"Geofence"} mt={3.5}>
+                <label>Geofence</label>
+                {geofence ? (
+                  <Box className={"Geofence-inrr"}>
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      to="/createGeoFence"
+                    >
+                      <span>View geo fence</span>
+                    </Link>
+                  </Box>
+                ) : (
+                  <Box className={"Geofence-inrr"}>
+                    <AddIcon />
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      to="/createGeoFence"
+                    >
+                      <span>Draw geofence on a map</span>
+                    </Link>
+                  </Box>
+                )}
+              </Box>
+            )}
+            <Box className={"Rules"} mt={3.5}>
+              <label>Rules</label>
+              <textarea
+                value={
+                  rulesJson !== null
+                    ? JSON.stringify(rulesJson, undefined, 2)
+                    : ""
+                }
+                {...register("rules")}
+              ></textarea>
             </Box>
-          )}
-          <Box className={"Rules"} mt={3.5}>
-            <label>Rules</label>
-            <textarea
-              value={
-                rulesJson !== null
-                  ? JSON.stringify(rulesJson, undefined, 2)
-                  : ""
-              }
-              {...register("rules")}
-            ></textarea>
-          </Box>
-          <Box className={"footer-btn"} mt={3.5}>
-            <Box
-              onClick={() => navigate("/")}
-              component={"button"}
-              className={"back"}
-            >
-              Go back
+            <Box className={"footer-btn"} mt={3.5}>
+              <Box
+                onClick={() => navigate("/")}
+                component={"button"}
+                className={"back"}
+              >
+                Go back
+              </Box>
+              <Box component={"button"} type="submit" className={"save"}>
+                Save
+              </Box>
             </Box>
-            <Box component={"button"} type="submit" className={"save"}>
-              Save
-            </Box>
-          </Box>
-        </form>
+          </form>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 export default CreatePolicyForm;
