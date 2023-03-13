@@ -109,8 +109,8 @@ export default function ResponsiveDrawer(props: Props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <Header />
-        <Box
+        {/* <Header HeaderText={""} /> */}
+        {/* <Box
           className={"policy-wrapper"}
           style={{
             padding: " 25px 25px 20px",
@@ -118,9 +118,9 @@ export default function ResponsiveDrawer(props: Props) {
             flexWrap: "wrap",
             justifyContent: "space-between",
           }}
-        >
-          <Outlet />
-        </Box>
+        > */}
+        <Outlet />
+        {/* </Box> */}
       </Box>
     </Box>
   );

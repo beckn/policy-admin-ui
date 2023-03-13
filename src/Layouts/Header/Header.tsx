@@ -14,7 +14,12 @@ import "./Header.css";
 
 const settings = ["Logout"];
 
-function ResponsiveAppBar() {
+export interface HeaderProp {
+  HeaderText: string;
+  textCount?: number;
+}
+
+function ResponsiveAppBar(props: HeaderProp) {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -40,7 +45,6 @@ function ResponsiveAppBar() {
               variant="h6"
               noWrap
               component="a"
-              href="/"
               sx={{
                 mr: 2,
                 fontWeight: 600,
@@ -48,7 +52,7 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              Policy Summary
+              {props.HeaderText}
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 0 }} display="flex" alignItems={"center"}>

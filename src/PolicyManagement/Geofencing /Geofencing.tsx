@@ -12,6 +12,7 @@ import {
 import "./Geofencing.css";
 import { usePolicyForm } from "../../Store/PolicyStore";
 import { useNavigate } from "react-router-dom";
+import ResponsiveAppBar from "../../Layouts/Header/Header";
 
 function Geofencing() {
   const [map, setMap] = React.useState(null);
@@ -40,16 +41,15 @@ function Geofencing() {
     setCoordinatesForForm([
       ...coordinatesForForm,
       `${event.latLng.lat()},${event.latLng.lng()}`,
-
     ]);
   };
 
   useEffect(() => {
     const coordinatesData = policyFormDataAndActions.polygon;
-    const CordinateResult = coordinatesData.map(location=> {
-      const [lat,lng]=location.split(',')
-      return ({lat:parseFloat(lat),lng:parseFloat(lng)})
-    })
+    const CordinateResult = coordinatesData.map((location) => {
+      const [lat, lng] = location.split(",");
+      return { lat: parseFloat(lat), lng: parseFloat(lng) };
+    });
     if (policyFormDataAndActions.polygon.length !== 0) {
       setCoordinates(CordinateResult);
     }
@@ -98,82 +98,89 @@ function Geofencing() {
   };
 
   return (
-    <Box className="geofencing-container">
-      <Typography>* Please click on points to create polygon</Typography>
-      <Box height={"660px"} position="relative" width="100%">
-        {/* {isLoaded && ( */}
-        <div>
-          <LoadScript
-            libraries={libraries as any}
-            googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_KEY as string}
-          >
-            <GoogleMap
-              center={focusedMapPosition}
-              zoom={10}
-              mapContainerStyle={{
-                height: "660px",
-                width: "100%",
-                position: "absolute",
-                borderRadius: "10px",
-                overflow: "auto",
-              }}
-              options={{
-                zoomControl: true,
-                streetViewControl: true,
-                mapTypeControl: false,
-                fullscreenControl: false,
-              }}
-              onLoad={onLoad}
-              onUnmount={onUnmount}
-              onClick={handleMapClick}
-            >
-              <Marker position={focusedMapPosition} />
-              <Polygon
-                paths={coordinates}
-                options={{
-                  strokeColor: "#000000",
-                  fillColor: "#01326A",
-                  strokeOpacity: 0.8,
-                }}
-                editable={true}
-              />
-              <Autocomplete
-                onLoad={onAutoCompleteLoad}
-                onPlaceChanged={onPlaceChanged}
+    <>
+      <ResponsiveAppBar HeaderText={"Draw Geofencing "} />
+      <Box className="policy-wrapper">
+        <Box className="geofencing-container">
+          <Typography>* Please click on points to create polygon</Typography>
+          <Box height={"660px"} position="relative" width="100%">
+            {/* {isLoaded && ( */}
+            <div>
+              <LoadScript
+                libraries={libraries as any}
+                googleMapsApiKey={
+                  process.env.REACT_APP_GOOGLE_MAP_KEY as string
+                }
               >
-                <input
-                  type="text"
-                  placeholder="Enter a location"
-                  style={autoCompleteInputStyle}
-                />
-              </Autocomplete>
-            </GoogleMap>
-          </LoadScript>
-        </div>
-        {/* )} */}
-      </Box>
-      <Box className={"footer-geofencing-btn"} mt={2}>
-        <Box className={"save"} onClick={handleClearPolygon}>
-          Clear Geofence
+                <GoogleMap
+                  center={focusedMapPosition}
+                  zoom={10}
+                  mapContainerStyle={{
+                    height: "660px",
+                    width: "100%",
+                    position: "absolute",
+                    borderRadius: "10px",
+                    overflow: "auto",
+                  }}
+                  options={{
+                    zoomControl: true,
+                    streetViewControl: true,
+                    mapTypeControl: false,
+                    fullscreenControl: false,
+                  }}
+                  onLoad={onLoad}
+                  onUnmount={onUnmount}
+                  onClick={handleMapClick}
+                >
+                  <Marker position={focusedMapPosition} />
+                  <Polygon
+                    paths={coordinates}
+                    options={{
+                      strokeColor: "#000000",
+                      fillColor: "#01326A",
+                      strokeOpacity: 0.8,
+                    }}
+                    editable={true}
+                  />
+                  <Autocomplete
+                    onLoad={onAutoCompleteLoad}
+                    onPlaceChanged={onPlaceChanged}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Enter a location"
+                      style={autoCompleteInputStyle}
+                    />
+                  </Autocomplete>
+                </GoogleMap>
+              </LoadScript>
+            </div>
+            {/* )} */}
+          </Box>
+          <Box className={"footer-geofencing-btn"} mt={2}>
+            <Box className={"save"} onClick={handleClearPolygon}>
+              Clear Geofence
+            </Box>
+          </Box>
+          <Box className={"footer-geofencing-btn"} mt={2}>
+            <Box
+              component={"div"}
+              onClick={() => navigate("/createPolicy")}
+              className={"back"}
+            >
+              Go back
+            </Box>
+            <Box
+              component={"div"}
+              onClick={handleSaveCoordinates}
+              className={"save"}
+            >
+              Save
+            </Box>
+          </Box>
         </Box>
       </Box>
-      <Box className={"footer-geofencing-btn"} mt={2}>
-        <Box
-          component={"div"}
-          onClick={() => navigate("/createPolicy")}
-          className={"back"}
-        >
-          Go back
-        </Box>
-        <Box
-          component={"div"}
-          onClick={handleSaveCoordinates}
-          className={"save"}
-        >
-          Save
-        </Box>
-      </Box>
-    </Box>
+    </>
   );
 }
 
