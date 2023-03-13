@@ -489,6 +489,7 @@ const CreatePolicyForm = () => {
                     value={startDateValue}
                     onChange={handleStartDateChange}
                     label="Select ‘from’ date "
+                    format="DD-MM-YYYY"
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -507,6 +508,7 @@ const CreatePolicyForm = () => {
                     onChange={handleEndDateChange}
                     label="Select ‘to’ date"
                     value={endDateValue}
+                    format="DD-MM-YYYY"
                   />
                 </DemoContainer>
               </LocalizationProvider>

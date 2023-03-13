@@ -8,6 +8,7 @@
   min-height: 137px;
   border: 1px solid #004e9280;
   border-radius: 10px !important;
+  pointer-events: none;
 }
 .cards p {
   color: #3e4059;
