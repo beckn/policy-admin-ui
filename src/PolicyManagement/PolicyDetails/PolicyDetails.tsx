@@ -176,7 +176,7 @@ function PolicyDetails() {
           policyButtonText="Okay"
         />
       )}
-      <ResponsiveAppBar HeaderText={"New Policy"} />
+      <ResponsiveAppBar HeaderText={"Policy Details"} />
       <Box className="policy-wrapper">
         <Box className="policy-details-container">
           <Box className="form-data">
