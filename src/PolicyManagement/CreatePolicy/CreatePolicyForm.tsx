@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect ,useState} from "react";
 import {
   Checkbox,
   Divider,
@@ -17,7 +17,6 @@ import { Box } from "@mui/system";
 import { useForm, SubmitHandler, useFormState } from "react-hook-form";
 import SwitchBtn from "../../Components/Switch/SwitchBtn";
 import "./CreatePolicyForm.css";
-import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 //TODO check if this is required
 // import ClearIcon from "@mui/icons-material/Clear";
@@ -602,7 +601,7 @@ const CreatePolicyForm = () => {
                   <Box className={"Geofence-inrr"}>
                     <Link
                       style={{ textDecoration: "none" }}
-                      to="/createGeoFence"
+                      to={`/createGeoFence?city=${policyFormDataAndActions.city}`}
                     >
                       <span>View geo fence</span>
                     </Link>
@@ -612,7 +611,7 @@ const CreatePolicyForm = () => {
                     <AddIcon />
                     <Link
                       style={{ textDecoration: "none" }}
-                      to="/createGeoFence"
+                      to={`/createGeoFence?city=${policyFormDataAndActions.city}`}
                     >
                       <span>Draw geofence on a map</span>
                     </Link>

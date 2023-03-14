@@ -11,15 +11,20 @@ import {
 } from "@react-google-maps/api";
 import "./Geofencing.css";
 import { usePolicyForm } from "../../Store/PolicyStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation,useSearchParams } from "react-router-dom";
 import ResponsiveAppBar from "../../Layouts/Header/Header";
+import {cityCoordinates} from "../../Common/GeoLocation";
 
 function Geofencing() {
-  const [map, setMap] = React.useState(null);
-  const [focusedMapPosition, setFocusedMapPosition] = useState({
+  const [searchParams] = useSearchParams();
+  const city = searchParams.get('city')|| 'Bangalore';
+  const cityLatLng=cityCoordinates[city] ||{
     lat: 12.903561,
     lng: 77.5939631,
-  });
+  }
+
+  const [map, setMap] = React.useState(null);
+  const [focusedMapPosition, setFocusedMapPosition] = useState(cityLatLng);
   const [coordinates, setCoordinates] = useState<{ lat: any; lng: any }[]>([]);
   const [coordinatesForForm, setCoordinatesForForm] = useState<string[]>([]);
   const navigate = useNavigate();
@@ -30,6 +35,8 @@ function Geofencing() {
   const handleClearPolygon = () => {
     setCoordinates([]);
     setCoordinatesForForm([]);
+    policyFormDataAndActions.updatePolygon([]);
+
   };
 
   const handleMapClick = (event: any) => {
