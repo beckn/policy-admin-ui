@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect ,useState} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Checkbox,
   Divider,
@@ -309,7 +309,7 @@ const CreatePolicyForm = () => {
 
   return (
     <>
-      <ResponsiveAppBar HeaderText={"New Policy"} />
+      <ResponsiveAppBar HeaderText={"New Information"} />
       <Box className="policy-wrapper" justifyContent={"unset"}>
         <PolicyModal
           handleClose={handleModalClose}
@@ -325,7 +325,9 @@ const CreatePolicyForm = () => {
             justifyContent={"space-between"}
             className={"addPolicy-container"}
           >
-            <Typography width={"50%"}>Add policy details</Typography>
+            <Typography fontWeight={"600"} fontSize="18px" width={"50%"}>
+              Add Information Metadata
+            </Typography>
             <Box display={"flex"} alignItems={"center"}>
               <Typography pr={3}>Activate</Typography>
               <FormGroup>
@@ -349,11 +351,11 @@ const CreatePolicyForm = () => {
               className={"row-form"}
             >
               <Box>
-                <label>Policy Name</label>
-                <input placeholder="Enter Policy Name" {...register("name")} />
+                <label>Title</label>
+                <input placeholder="Enter Title" {...register("name")} />
               </Box>
               <Box>
-                <label>Policy Type</label>
+                <label>Information Category</label>
                 {/* <input {...register("exampleRequired", { required: true })} /> */}
                 <FormControl
                   sx={{ m: 1, width: 300, mt: 3 }}
@@ -367,7 +369,7 @@ const CreatePolicyForm = () => {
                     input={<OutlinedInput />}
                     renderValue={(selected) => {
                       if (selected.length === 0) {
-                        return <span>Select</span>;
+                        return <span>Select Information Category</span>;
                       }
 
                       return selected;
@@ -375,7 +377,7 @@ const CreatePolicyForm = () => {
                     inputProps={{ "aria-label": "Without label" }}
                   >
                     <MenuItem disabled value="">
-                      <span>Select</span>
+                      <span>Select Information Category</span>
                     </MenuItem>
                     {policyTypes.map((policyType, i) => (
                       <MenuItem key={i} value={policyType}>
@@ -387,9 +389,9 @@ const CreatePolicyForm = () => {
                 {errors.type && <span>This field is required</span>}
               </Box>
               <Box>
-                <label>Policy Owner</label>
+                <label>Information Source Owner</label>
                 <input
-                  placeholder="Enter Policy Owner Name"
+                  placeholder="Enter Information Source Owner Name"
                   {...register("owner", { required: true })}
                 />
                 {errors.owner && <span>This field is required</span>}
@@ -398,7 +400,7 @@ const CreatePolicyForm = () => {
             <Box>
               <label>Description</label>
               <textarea
-                placeholder="Add policy description"
+                placeholder="Add Description"
                 {...register("description")}
               />
             </Box>
@@ -530,7 +532,7 @@ const CreatePolicyForm = () => {
               width="70.5%"
             >
               <Box>
-                <label>Policy Document</label>
+                <label>Sources</label>
                 {/* <input
               defaultValue="Enter policy document URL"
               {...register("exampleRequired", { required: true })}
@@ -538,7 +540,7 @@ const CreatePolicyForm = () => {
 
                 <div className="box-btn">
                   <input
-                    placeholder="Enter policy document URL"
+                    placeholder="Add Source URL"
                     {...register("policyDocument", { required: true })}
                     // onChange={(e) => handleInputChange(e)}
                   />

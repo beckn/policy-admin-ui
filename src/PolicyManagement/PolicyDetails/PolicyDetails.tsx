@@ -69,72 +69,72 @@ function PolicyDetails() {
   }, []);
 
   const handleStatus = useCallback(() => {
-    if (statusDetails !== "") {
-      if (firstRender.current) {
-        firstRender.current = false;
-        return;
-      }
-      axios
-        .patch(`${apiUrl}/v1/policy`, {
-          policy: {
-            id: parsedId,
-            status:
-              statusDetails === "Publish"
-                ? "published"
-                : statusDetails.toLowerCase(),
-            modifiedBy: "Policy Admin",
-          },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            if (res.data.policy.status === "inactive") {
-              setModalDetails({
-                modalIcon: "/assets/inActivePolicy.svg",
-                policySubTitle:
-                  "Policy has been deactivated. The policy is no longer in force.",
-                policyTitle: "Policy has been deactivated!",
-              });
-              setIsModalOpen(true);
-              axios
-                .post(
-                  "https://api.mobility-bap-policy.becknprotocol.io/v1/policy/broadcast/update",
-                  payloadForBrodcastUpdate(policyDetails, "inactive")
-                )
-                .then((res) => console.log("brodcast res", res))
-                .catch((e) => console.error(e));
-            }
-            if (res.data.policy.status === "active") {
-              setModalDetails({
-                modalIcon: "/assets/activePolicy.svg",
-                policySubTitle:
-                  "Policy activation was a success. Your policy will take effect once it has been ‘Published’. ",
-                policyTitle: "Policy is now active!",
-              });
-              setIsModalOpen(true);
-            }
-
-            if (res.data.policy.status === "published") {
-              setModalDetails({
-                modalIcon: "/assets/publishedPolicy.svg",
-                policySubTitle:
-                  "All BAP applications can now access this policy.",
-                policyTitle: "Policy published successfully!",
-              });
-              setIsModalOpen(true);
-
-              axios
-                .post(
-                  "https://api.mobility-bap-policy.becknprotocol.io/v1/policy/broadcast",
-                  payloadForBrodcast(policyDetails, "new")
-                )
-                .then((res) => console.log("brodcast res", res))
-                .catch((e) => console.error(e));
-            }
+    // if (statusDetails !== "") {
+    //   if (firstRender.current) {
+    //     firstRender.current = false;
+    //     return;
+    //   }
+    axios
+      .patch(`${apiUrl}/v1/policy`, {
+        policy: {
+          id: parsedId,
+          status:
+            statusDetails === "Publish"
+              ? "published"
+              : statusDetails.toLowerCase(),
+          modifiedBy: "Policy Admin",
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data.policy.status === "inactive") {
+            setModalDetails({
+              modalIcon: "/assets/inActivePolicy.svg",
+              policySubTitle:
+                "Policy has been deactivated. The policy is no longer in force.",
+              policyTitle: "Policy has been deactivated!",
+            });
+            setIsModalOpen(true);
+            axios
+              .post(
+                "https://api.mobility-bap-policy.becknprotocol.io/v1/policy/broadcast/update",
+                payloadForBrodcastUpdate(policyDetails, "inactive")
+              )
+              .then((res) => console.log("brodcast res", res))
+              .catch((e) => console.error(e));
           }
-        })
+          if (res.data.policy.status === "active") {
+            setModalDetails({
+              modalIcon: "/assets/activePolicy.svg",
+              policySubTitle:
+                "Policy activation was a success. Your policy will take effect once it has been ‘Published’. ",
+              policyTitle: "Policy is now active!",
+            });
+            setIsModalOpen(true);
+          }
 
-        .catch((e) => console.error(e));
-    }
+          if (res.data.policy.status === "published") {
+            setModalDetails({
+              modalIcon: "/assets/publishedPolicy.svg",
+              policySubTitle:
+                "All BAP applications can now access this policy.",
+              policyTitle: "Policy published successfully!",
+            });
+            setIsModalOpen(true);
+
+            axios
+              .post(
+                "https://api.mobility-bap-policy.becknprotocol.io/v1/policy/broadcast",
+                payloadForBrodcast(policyDetails, "new")
+              )
+              .then((res) => console.log("brodcast res", res))
+              .catch((e) => console.error(e));
+          }
+        }
+      })
+
+      .catch((e) => console.error(e));
+    // }
   }, [statusDetails]);
 
   useEffect(() => {
@@ -176,11 +176,17 @@ function PolicyDetails() {
           policyButtonText="Okay"
         />
       )}
-      <ResponsiveAppBar HeaderText={"Policy Details"} />
+      <ResponsiveAppBar HeaderText={"Information Details"} />
       <Box className="policy-wrapper">
         <Box className="policy-details-container">
           <Box className="form-data">
-            <Box className="policy-details-header">Policy details</Box>
+            <Box
+              className="policy-details-header"
+              fontWeight={"600"}
+              fontSize="18px"
+            >
+              Information Update Metadata
+            </Box>
             <Box
               display={"flex"}
               justifyContent={"space-between"}
@@ -188,7 +194,7 @@ function PolicyDetails() {
             >
               <Box>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
-                  Name
+                  Title
                 </Typography>
                 <Typography variant="subtitle2" gutterBottom fontSize="14px">
                   {policyDetails.name}
@@ -196,7 +202,7 @@ function PolicyDetails() {
               </Box>
               <Box>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
-                  Type
+                  Information Category
                 </Typography>
                 <Typography variant="subtitle2" gutterBottom fontSize="14px">
                   {policyDetails.type}
@@ -204,7 +210,7 @@ function PolicyDetails() {
               </Box>
               <Box>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
-                  Owner
+                  Information Source Owner
                 </Typography>
                 <Typography variant="subtitle2" gutterBottom fontSize="14px">
                   {policyDetails.owner}
@@ -281,7 +287,7 @@ function PolicyDetails() {
             <Box display={"flex"} padding="15px">
               <Box width={"50%"} className="policy-doc">
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
-                  Policy Document
+                  Sources
                 </Typography>
                 <Typography
                   variant="subtitle2"

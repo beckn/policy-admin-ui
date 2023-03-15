@@ -26,6 +26,12 @@
 .policy-wrapper {
   max-width: 1600px;
 }
+.list-btn {
+  padding: unset !important;
+}
+.list-text > span {
+  margin: 20px;
+}
 @media screen and (min-width: 678px) and (max-width: 1024px) {
   .css-6ld0yo-MuiDrawer-docked .MuiDrawer-paper {
     width: 140px;

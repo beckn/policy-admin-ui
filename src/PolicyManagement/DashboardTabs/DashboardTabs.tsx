@@ -122,7 +122,7 @@ export default function DashboardTabs() {
 
   return (
     <>
-      <ResponsiveAppBar HeaderText={"Policy Summary"} />
+      <ResponsiveAppBar HeaderText={"Summary"} />
       <Box className="policy-wrapper">
         {policyStates.map((policyState: string) => {
           return (
@@ -156,7 +156,7 @@ export default function DashboardTabs() {
             >
               <AddIcon />
               <Link style={{ textDecoration: "none" }} to="/createPolicy">
-                <Tab className="createPolicy" label="Create new Policy" />
+                <Tab className="createPolicy" label="Create New" />
               </Link>
             </Box>
           </Box>

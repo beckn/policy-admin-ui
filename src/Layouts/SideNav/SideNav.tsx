@@ -42,7 +42,7 @@ export default function ResponsiveDrawer(props: Props) {
         fontWeight={"600"}
         padding="20px"
       >
-        Network Policy Administration Console
+        Network Information Services
       </Typography>
       <Divider className="drawer-devider" />
       <List style={{ paddingLeft: "50px", marginTop: "10px" }}>

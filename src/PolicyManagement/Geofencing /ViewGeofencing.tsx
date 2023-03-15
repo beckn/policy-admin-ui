@@ -12,18 +12,18 @@ import "./Geofencing.css";
 import { usePolicyForm } from "../../Store/PolicyStore";
 import { useNavigate } from "react-router-dom";
 interface ViewGeoFenceProps {
-    coordinates:string[];
-    hideGeofence:(val:boolean)=> void;
+  coordinates: string[];
+  hideGeofence: (val: boolean) => void;
 }
-function ViewGeofencing(props:ViewGeoFenceProps) {
-    const {coordinates, hideGeofence} = props;
+function ViewGeofencing(props: ViewGeoFenceProps) {
+  const { coordinates, hideGeofence } = props;
   const [map, setMap] = React.useState(null);
   const [focusedMapPosition, setFocusedMapPosition] = useState({
     lat: 12.903561,
     lng: 77.5939631,
   });
   const [libraries] = useState(["places"]);
-  
+
   const onLoad = useCallback(function callback(map: any) {
     setMap(map);
   }, []);
@@ -31,22 +31,25 @@ function ViewGeofencing(props:ViewGeoFenceProps) {
     setMap(null);
   }, []);
 
- 
-const polygonCoords= coordinates.map((location:string)=> {
-    const [lat,lng]=location.split(',')
-    return ({lat:parseFloat(lat),lng:parseFloat(lng)})
-  })
-  useEffect(()=> {
-
-    return ()=>{
-        setMap(null);
-    }
-  })
-  
+  const polygonCoords = coordinates.map((location: string) => {
+    const [lat, lng] = location.split(",");
+    return { lat: parseFloat(lat), lng: parseFloat(lng) };
+  });
+  useEffect(() => {
+    return () => {
+      setMap(null);
+    };
+  });
 
   return (
     <Box className="geofencing-container">
-      <Box height={"660px"} position="relative" width="100%">
+      <Box
+        height={"660px"}
+        position="relative"
+        width="98%"
+        margin={"0 auto"}
+        padding="25px 0 20px"
+      >
         {/* {isLoaded && ( */}
         <div>
           <LoadScript
@@ -87,12 +90,13 @@ const polygonCoords= coordinates.map((location:string)=> {
         </div>
         {/* )} */}
       </Box>
-     
-      <Box className={"footer-geofencing-btn"} mt={2}>
+
+      <Box className={"footer-geofencing-btn"} mt={5}>
         <Box
           component={"div"}
           onClick={() => hideGeofence(false)}
           className={"back"}
+          mr="unset !important"
         >
           Go back
         </Box>
