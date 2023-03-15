@@ -187,12 +187,8 @@ function PolicyDetails() {
             >
               Information Update Metadata
             </Box>
-            <Box
-              display={"flex"}
-              justifyContent={"space-between"}
-              padding="15px"
-            >
-              <Box>
+            <Box display={"flex"} padding="15px">
+              <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Title
                 </Typography>
@@ -200,7 +196,7 @@ function PolicyDetails() {
                   {policyDetails.name}
                 </Typography>
               </Box>
-              <Box>
+              <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Information Category
                 </Typography>
@@ -208,7 +204,7 @@ function PolicyDetails() {
                   {policyDetails.type}
                 </Typography>
               </Box>
-              <Box>
+              <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Information Source Owner
                 </Typography>
@@ -216,7 +212,7 @@ function PolicyDetails() {
                   {policyDetails.owner}
                 </Typography>
               </Box>
-              <Box>
+              <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Status
                 </Typography>
@@ -238,7 +234,7 @@ function PolicyDetails() {
                 </FormControl>
               </Box>
             </Box>
-            <Box padding="15px">
+            <Box padding="15px" width={"100%"}>
               <Typography fontWeight={600} fontSize="14px" mb={1}>
                 Description
               </Typography>
@@ -246,12 +242,8 @@ function PolicyDetails() {
                 {policyDetails.description}
               </Typography>
             </Box>
-            <Box
-              display={"flex"}
-              justifyContent={"space-between"}
-              padding="15px"
-            >
-              <Box>
+            <Box display={"flex"} padding="15px">
+              <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Country
                 </Typography>
@@ -259,7 +251,7 @@ function PolicyDetails() {
                   {policyDetails.country}
                 </Typography>
               </Box>
-              <Box>
+              <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   City
                 </Typography>
@@ -267,7 +259,7 @@ function PolicyDetails() {
                   {policyDetails.city}
                 </Typography>
               </Box>
-              <Box>
+              <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   From
                 </Typography>
@@ -275,7 +267,7 @@ function PolicyDetails() {
                   {convertUtcToDDMMYY(policyDetails.startDate)}
                 </Typography>
               </Box>
-              <Box style={{ width: "181px" }}>
+              <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   To
                 </Typography>
@@ -285,7 +277,7 @@ function PolicyDetails() {
               </Box>
             </Box>
             <Box display={"flex"} padding="15px">
-              <Box width={"50%"} className="policy-doc">
+              <Box width={"50%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Sources
                 </Typography>
@@ -298,7 +290,7 @@ function PolicyDetails() {
                   {policyDetails.policyDocument}
                 </Typography>
               </Box>
-              <Box width={"50%"} className="Applicable-to">
+              <Box className="Applicable-to" width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Applicable to
                 </Typography>

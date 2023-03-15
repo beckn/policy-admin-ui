@@ -350,11 +350,11 @@ const CreatePolicyForm = () => {
               justifyContent={"space-between"}
               className={"row-form"}
             >
-              <Box>
+              <Box className={"width30"}>
                 <label>Title</label>
                 <input placeholder="Enter Title" {...register("name")} />
               </Box>
-              <Box>
+              <Box className={"width30"}>
                 <label>Information Category</label>
                 {/* <input {...register("exampleRequired", { required: true })} /> */}
                 <FormControl
@@ -388,7 +388,7 @@ const CreatePolicyForm = () => {
                 </FormControl>
                 {errors.type && <span>This field is required</span>}
               </Box>
-              <Box>
+              <Box className={"width30"}>
                 <label>Information Source Owner</label>
                 <input
                   placeholder="Enter Information Source Owner Name"
@@ -410,7 +410,7 @@ const CreatePolicyForm = () => {
               flexWrap={"wrap"}
               className={"country-row"}
             >
-              <Box>
+              <Box className={"width25"}>
                 <label>Country</label>
                 {/* <input
                 placeholder="Enter country name"
@@ -446,7 +446,7 @@ const CreatePolicyForm = () => {
                   </Select>
                 </FormControl>
               </Box>
-              <Box>
+              <Box className={"width25"}>
                 <label>City</label>
                 {/* <input
                 placeholder="Enter city name"
@@ -484,7 +484,7 @@ const CreatePolicyForm = () => {
 
                 {errors.city && <span>This field is required</span>}
               </Box>
-              <Box>
+              <Box className={"width25"}>
                 <label>From</label>
                 {/* <input
                 onClick={dateHandler}
@@ -505,7 +505,7 @@ const CreatePolicyForm = () => {
                   </DemoContainer>
                 </LocalizationProvider>
               </Box>
-              <Box>
+              <Box className={"width25"}>
                 <label>To</label>
                 {/* <input
                 placeholder="Select ‘to’ date "
@@ -529,9 +529,8 @@ const CreatePolicyForm = () => {
               display={"flex"}
               justifyContent={"space-between"}
               className={"policy-doc"}
-              width="70.5%"
             >
-              <Box>
+              <Box width="45%">
                 <label>Sources</label>
                 {/* <input
               defaultValue="Enter policy document URL"
@@ -564,7 +563,7 @@ const CreatePolicyForm = () => {
                     )} */}
                 </div>
               </Box>
-              <Box className={"applicable-tab"}>
+              <Box className={"applicable-tab"} width="48%">
                 <label>Applicable to</label>
                 <Select
                   className="applicable-policy"

@@ -71,14 +71,20 @@
   cursor: pointer;
 }
 @media screen and (min-width: 678px) and (max-width: 1024px) {
-  .policy-doc {
-    width: 77% !important;
-  }
-  .Applicable-to {
-    width: 23% !important;
-  }
   .select-policy-details .select-policy {
-    min-width: 100%;
+    min-width: 100% !important;
   }
 }
-
+@media screen and (min-width: 1025px) and (max-width: 1225px) {
+  .select-policy {
+    width: 100% !important;
+  }
+  .select-policy-details .select-policy {
+    min-width: 100% !important;
+  }
+}
+@media screen and (min-width: 1025px) and (max-width: 1340px) {
+  .select-policy-details .select-policy {
+    min-width: 100% !important;
+  }
+}

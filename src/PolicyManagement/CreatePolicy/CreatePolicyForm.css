@@ -10,7 +10,7 @@ input,
   padding: 10px 15px !important;
   margin-bottom: 10px;
   font-size: 14px;
-  min-width: 350px;
+  width: 100%;
   height: 53px;
   color: #000000;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
@@ -50,6 +50,7 @@ label {
 .select-policy-container {
   margin: unset !important;
   margin-top: unset;
+  width: 100% !important;
 }
 textarea {
   width: 100% !important;
@@ -64,11 +65,9 @@ textarea {
   font-family: unset !important;
   padding: 15px;
 }
-.country-row input {
-  min-width: 250px;
-}
-.policy-doc input {
-  min-width: 440px;
+.date-start {
+  min-width: 100% !important;
+  height: 53px;
 }
 .box-btn {
   display: flex;
@@ -151,12 +150,7 @@ textarea {
 .css-1xhypcz-MuiStack-root {
   padding-top: unset !important;
 }
-.date-start {
-  height: 53px;
-}
-.date-start input {
-  min-width: 218px;
-}
+
 .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
   height: 31px !important;
   border-radius: 10px !important;
@@ -175,7 +169,12 @@ fieldset {
 .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
   display: none !important;
 }
-
+.width30 {
+  width: 30%;
+}
+.width25 {
+  width: 22.5%;
+}
 @media screen and (min-width: 678px) and (max-width: 1024px) {
   .row-form,
   .country-row,
@@ -188,15 +187,16 @@ fieldset {
   }
   .select-policy {
     max-width: 100% !important;
-    min-width: 412px;
-  }
-
-  .country-row input {
     min-width: 100%;
   }
-
+  .select-policy-container {
+    width: 100%;
+  }
   .policy-doc input {
-    min-width: 70%;
+    min-width: 100%;
+  }
+  .policy-doc .applicable-policy {
+    min-width: 100%;
   }
   .policy-doc {
     width: 100% !important;
@@ -204,60 +204,10 @@ fieldset {
   .footer-btn .back {
     text-align: center;
   }
-}
-@media screen and (min-width: 1025px) and (max-width: 1225px) {
-  input,
-  .select-policy {
-    min-width: 200px;
+  .width30 {
+    width: 100%;
   }
-  .select-policy {
-    min-width: 240px;
-    width: 200px !important;
-  }
-  .select-policy-container {
-    width: 240px !important;
-  }
-  .country-row input {
-    min-width: 200px;
-  }
-  .country-row {
-    flex-wrap: wrap;
-  }
-
-  .policy-doc input {
-    min-width: 70%;
-  }
-
-  .footer-btn .back {
-    margin-right: unset;
-    margin-bottom: 15px;
-    text-align: center;
-  }
-}
-@media screen and (min-width: 1225px) and (max-width: 1480px) {
-  input,
-  .select-policy {
-    min-width: 280px;
-    max-width: 300px;
-  }
-  .select-policy {
-    max-width: 100% !important;
-    min-width: 280px;
-  }
-
-  .country-row input {
-    min-width: 100%;
-  }
-
-  .policy-doc {
-    width: 82% !important;
-  }
-  .footer-btn .back {
-    margin-right: unset;
-    margin-bottom: 15px;
-    text-align: center;
-  }
-  .date-start input {
-    min-width: 80%;
+  .width25 {
+    width: 100%;
   }
 }
