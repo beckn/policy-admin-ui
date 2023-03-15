@@ -134,7 +134,7 @@ export default function DashboardTabs() {
         })}
         <Box
           sx={{ width: "100%" }}
-          marginTop="40px"
+          marginTop="20px"
           className={"tab-container"}
         >
           <Box

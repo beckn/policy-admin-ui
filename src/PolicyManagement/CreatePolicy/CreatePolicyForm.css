@@ -1,5 +1,6 @@
-.form-container {
+.form-box {
   border: 1px solid #72767e;
+  padding: 20px;
 }
 input,
 .select-policy {
@@ -16,16 +17,17 @@ input,
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04);
 }
 .addPolicy-container {
-  padding: 20px;
-  padding-bottom: 12px;
+  padding-bottom: 15px;
 }
 
 .devider {
   border: 1px solid #72767e;
+  margin-left: -20px !important;
+  width: calc(100% + 40px) !important;
 }
-.policy-form {
+/* .policy-form {
   padding: 20px;
-}
+} */
 label {
   line-height: 2;
   text-align: left;
@@ -46,6 +48,7 @@ label {
 .select-policy span {
   border: none;
   font-size: 14px;
+  opacity: 0.6;
 }
 .select-policy-container {
   margin: unset !important;
@@ -107,7 +110,14 @@ textarea {
   justify-content: center;
   margin-bottom: 20px;
   cursor: pointer;
-  color: #013067;
+}
+.Geofence-inrr a {
+  color: #013067 !important;
+}
+.Geofence-view a {
+  color: #013067 !important;
+  font-size: 14px;
+  font-weight: 500;
 }
 .Geofence-inrr svg {
   font-size: 20px;

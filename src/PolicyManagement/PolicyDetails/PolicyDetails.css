@@ -11,7 +11,7 @@
 .policy-details-header {
   border-bottom: 1px solid #004e924d;
   width: 100%;
-  padding: 30px 15px;
+  padding: 20px;
 }
 .geofence-view {
   border: 1px solid #72767e;
@@ -52,7 +52,7 @@
   padding: unset;
 }
 .select-policy-details .select-policy {
-  min-width: 250px;
+  min-width: 181px;
 }
 .MuiSelect-select[aria-label="Active"] {
   color: #32983c;

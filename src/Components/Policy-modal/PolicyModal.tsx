@@ -40,12 +40,11 @@ const PolicyModal: React.FC<policyPropModal> = ({
       {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         open={open}
-        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} className="policy-modal">
-          <Box className="modal-img">
+          <Box className="modal-img" mt={"20px"}>
             <img src={modalIcon} alt="" />
           </Box>
           <Typography id="modal-modal-title" variant="h6" component="h2">

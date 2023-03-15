@@ -20,6 +20,10 @@
 .createPolicy {
   display: flex;
   color: #013b76 !important;
+  font-weight: 400 !important;
+  text-transform: unset !important;
+  opacity: unset !important;
+  padding: unset !important;
 }
 .tab-container p {
   display: grid;

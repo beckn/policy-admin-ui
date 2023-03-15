@@ -187,12 +187,17 @@ function PolicyDetails() {
             >
               Information Update Metadata
             </Box>
-            <Box display={"flex"} padding="15px">
+            <Box display={"flex"} padding="20px">
               <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Title
                 </Typography>
-                <Typography variant="subtitle2" gutterBottom fontSize="14px">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={"400"}
+                  gutterBottom
+                  fontSize="14px"
+                >
                   {policyDetails.name}
                 </Typography>
               </Box>
@@ -200,7 +205,12 @@ function PolicyDetails() {
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Information Category
                 </Typography>
-                <Typography variant="subtitle2" gutterBottom fontSize="14px">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={"400"}
+                  gutterBottom
+                  fontSize="14px"
+                >
                   {policyDetails.type}
                 </Typography>
               </Box>
@@ -208,7 +218,12 @@ function PolicyDetails() {
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Information Source Owner
                 </Typography>
-                <Typography variant="subtitle2" gutterBottom fontSize="14px">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={"400"}
+                  gutterBottom
+                  fontSize="14px"
+                >
                   {policyDetails.owner}
                 </Typography>
               </Box>
@@ -234,20 +249,30 @@ function PolicyDetails() {
                 </FormControl>
               </Box>
             </Box>
-            <Box padding="15px" width={"100%"}>
+            <Box padding="20px" width={"100%"}>
               <Typography fontWeight={600} fontSize="14px" mb={1}>
                 Description
               </Typography>
-              <Typography variant="subtitle2" gutterBottom fontSize="14px">
+              <Typography
+                variant="subtitle2"
+                fontWeight={"400"}
+                gutterBottom
+                fontSize="14px"
+              >
                 {policyDetails.description}
               </Typography>
             </Box>
-            <Box display={"flex"} padding="15px">
+            <Box display={"flex"} padding="20px">
               <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Country
                 </Typography>
-                <Typography variant="subtitle2" gutterBottom fontSize="14px">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={"400"}
+                  gutterBottom
+                  fontSize="14px"
+                >
                   {policyDetails.country}
                 </Typography>
               </Box>
@@ -255,7 +280,12 @@ function PolicyDetails() {
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   City
                 </Typography>
-                <Typography variant="subtitle2" gutterBottom fontSize="14px">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={"400"}
+                  gutterBottom
+                  fontSize="14px"
+                >
                   {policyDetails.city}
                 </Typography>
               </Box>
@@ -263,7 +293,12 @@ function PolicyDetails() {
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   From
                 </Typography>
-                <Typography variant="subtitle2" gutterBottom fontSize="14px">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={"400"}
+                  gutterBottom
+                  fontSize="14px"
+                >
                   {convertUtcToDDMMYY(policyDetails.startDate)}
                 </Typography>
               </Box>
@@ -271,18 +306,24 @@ function PolicyDetails() {
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   To
                 </Typography>
-                <Typography variant="subtitle2" gutterBottom fontSize="14px">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={"400"}
+                  gutterBottom
+                  fontSize="14px"
+                >
                   {convertUtcToDDMMYY(policyDetails.endDate)}
                 </Typography>
               </Box>
             </Box>
-            <Box display={"flex"} padding="15px">
+            <Box display={"flex"} padding="20px">
               <Box width={"50%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Sources
                 </Typography>
                 <Typography
                   variant="subtitle2"
+                  fontWeight={"400"}
                   gutterBottom
                   fontSize="14px"
                   color={"#004E92"}
@@ -294,19 +335,25 @@ function PolicyDetails() {
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Applicable to
                 </Typography>
-                <Typography variant="subtitle2" gutterBottom fontSize="14px">
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={"400"}
+                  gutterBottom
+                  fontSize="14px"
+                >
                   {policyDetails.applicableTo.join(",")}
                 </Typography>
               </Box>
             </Box>
           </Box>
           <Box className="geofence-view" mt="20px">
-            <Box padding="15px">
+            <Box padding="20px">
               <Typography fontWeight={600} fontSize="14px" mb={1}>
                 Geofence
               </Typography>
               <Typography
                 variant="subtitle2"
+                fontWeight={"400"}
                 gutterBottom
                 className="button"
                 fontSize="14px"
@@ -318,11 +365,16 @@ function PolicyDetails() {
             </Box>
           </Box>
           <Box className="geofence-view" mt="20px">
-            <Box padding="15px">
+            <Box padding="20px">
               <Typography fontWeight={600} fontSize="14px" mb={1}>
                 Rules
               </Typography>
-              <Typography variant="subtitle2" gutterBottom fontSize="14px">
+              <Typography
+                variant="subtitle2"
+                fontWeight={"400"}
+                gutterBottom
+                fontSize="14px"
+              >
                 {/* "id": 11, "title": "perfume Oil", "description": "Mega Discount,
               Impression of A...", "price": 13, "discountPercentage": 8.4,
               "rating": 4.26, "stock": 65, "brand": "Impression of Acqua Di

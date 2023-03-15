@@ -11,17 +11,17 @@ import {
 } from "@react-google-maps/api";
 import "./Geofencing.css";
 import { usePolicyForm } from "../../Store/PolicyStore";
-import { useNavigate,useLocation,useSearchParams } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import ResponsiveAppBar from "../../Layouts/Header/Header";
-import {cityCoordinates} from "../../Common/GeoLocation";
+import { cityCoordinates } from "../../Common/GeoLocation";
 
 function Geofencing() {
   const [searchParams] = useSearchParams();
-  const city = searchParams.get('city')|| 'Bangalore';
-  const cityLatLng=cityCoordinates[city] ||{
+  const city = searchParams.get("city") || "Bangalore";
+  const cityLatLng = cityCoordinates[city] || {
     lat: 12.903561,
     lng: 77.5939631,
-  }
+  };
 
   const [map, setMap] = React.useState(null);
   const [focusedMapPosition, setFocusedMapPosition] = useState(cityLatLng);
@@ -36,7 +36,6 @@ function Geofencing() {
     setCoordinates([]);
     setCoordinatesForForm([]);
     policyFormDataAndActions.updatePolygon([]);
-
   };
 
   const handleMapClick = (event: any) => {
@@ -107,9 +106,11 @@ function Geofencing() {
   return (
     <>
       <ResponsiveAppBar HeaderText={"Draw Geofencing "} />
-      <Box className="policy-wrapper">
+      <Box className="policy-wrapper policy-geo" padding={"0 0 0"}>
         <Box className="geofencing-container">
-          <Typography>* Please click on points to create polygon</Typography>
+          <Typography padding={"20px 30px"}>
+            * Please draw a polygon to create a Geofence
+          </Typography>
           <Box height={"660px"} position="relative" width="100%">
             {/* {isLoaded && ( */}
             <div>
@@ -126,7 +127,6 @@ function Geofencing() {
                     height: "660px",
                     width: "100%",
                     position: "absolute",
-                    borderRadius: "10px",
                     overflow: "auto",
                   }}
                   options={{
