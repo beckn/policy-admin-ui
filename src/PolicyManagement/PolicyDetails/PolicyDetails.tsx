@@ -187,7 +187,7 @@ function PolicyDetails() {
             >
               Information Update Metadata
             </Box>
-            <Box display={"flex"} padding="20px">
+            <Box display={"flex"} padding="20px 20px 0">
               <Box width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Title

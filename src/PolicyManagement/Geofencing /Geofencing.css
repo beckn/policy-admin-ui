@@ -23,6 +23,12 @@
   cursor: pointer;
 }
 
-.back{
+.back {
+  cursor: pointer;
+}
+.clear-geo {
+  color: #013067;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
 }

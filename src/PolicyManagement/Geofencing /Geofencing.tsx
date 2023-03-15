@@ -108,9 +108,20 @@ function Geofencing() {
       <ResponsiveAppBar HeaderText={"Draw Geofencing "} />
       <Box className="policy-wrapper policy-geo" padding={"0 0 0"}>
         <Box className="geofencing-container">
-          <Typography padding={"20px 30px"}>
-            * Please draw a polygon to create a Geofence
-          </Typography>
+          <Box
+            display={"flex"}
+            justifyContent="space-between"
+            padding={"20px 25px"}
+          >
+            <Typography fontSize={"14px"}>
+              * Please draw a polygon to create a Geofence
+            </Typography>
+            <Box>
+              <Box className={"clear-geo"} onClick={handleClearPolygon}>
+                Clear Geofence
+              </Box>
+            </Box>
+          </Box>
           <Box height={"660px"} position="relative" width="100%">
             {/* {isLoaded && ( */}
             <div>
@@ -164,12 +175,8 @@ function Geofencing() {
             </div>
             {/* )} */}
           </Box>
-          <Box className={"footer-geofencing-btn"} mt={2}>
-            <Box className={"save"} onClick={handleClearPolygon}>
-              Clear Geofence
-            </Box>
-          </Box>
-          <Box className={"footer-geofencing-btn"} mt={2}>
+
+          <Box className={"footer-geofencing-btn"} mt={4}>
             <Box
               component={"div"}
               onClick={() => navigate("/createPolicy")}
