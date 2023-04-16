@@ -5,7 +5,7 @@ export interface IFormInput {
   description: string;
   country: string;
   city: string;
-  policyDocument: string;
+  policyDocuments: string;
   applicableTo: string | string[];
   rules: string;
   startDate: string;
