@@ -1,0 +1,30 @@
+pipeline {
+  agent any
+  tools {
+    nodejs 'nodejs16'
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh ''' 
+        git checkout "${GIT_BRANCH}"
+        CI=false npm install
+        CI=false npm run build
+        '''          
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh '''
+        aws s3 cp --recursive build/ "${S3_BUCKET}"
+        aws cloudfront create-invalidation --distribution-id "${DISTRIBUTION_ID}" --paths "/*"
+        '''
+      }
+    }
+  }
+  post {
+    always {
+          cleanWs()
+        }
+    }
+}

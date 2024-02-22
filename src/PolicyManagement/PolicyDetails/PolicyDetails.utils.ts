@@ -22,6 +22,7 @@ export const payloadForBrodcast = (policyDetails: any, status: string) => {
       applicableTo: policyDetails.applicableTo,
       polygon: policyDetails.polygon,
       status: status,
+      policyDocuments:policyDetails.policyDocuments,
       createdBy: "Rahul Choudhary",
     },
   };

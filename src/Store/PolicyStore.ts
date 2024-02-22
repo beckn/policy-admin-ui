@@ -8,7 +8,7 @@ export interface IFormPolicy {
   description: string;
   country: string;
   city: string;
-  policyDocument: string;
+  policyDocuments: string;
   applicableTo: string | string[];
   rules: any;
   startDate: Dayjs | null;
@@ -20,7 +20,7 @@ export interface IFormPolicy {
   updateDescription: (newDescription: string) => void;
   updateCountry: (newCountry: string) => void;
   updateCity: (newCity: string) => void;
-  updatePolicyDocument: (newPolicyDocument: string) => void;
+  updatepolicyDocuments: (newpolicyDocuments: string) => void;
   updateApplicableTo: (newApplicableTo: string | string[]) => void;
   updateRules: (newRules: string) => void;
   updateStartDate: (newStartDate: any) => void;
@@ -35,7 +35,7 @@ export const usePolicyForm = create<IFormPolicy>((set) => ({
   description: "",
   country: "",
   city: "",
-  policyDocument: "",
+  policyDocuments: "",
   applicableTo: "",
   rules: null,
   startDate: null,
@@ -51,8 +51,8 @@ export const usePolicyForm = create<IFormPolicy>((set) => ({
     set({ description: newDescription }),
   updateCountry: (newCountry: string) => set({ country: newCountry }),
   updateCity: (newCity: string) => set({ city: newCity }),
-  updatePolicyDocument: (newPolicyDocument: string) =>
-    set({ policyDocument: newPolicyDocument }),
+  updatepolicyDocuments: (newpolicyDocuments: string) =>
+    set({ policyDocuments: newpolicyDocuments }),
   updateApplicableTo: (newApplicableTo: string | string[]) =>
     set({ applicableTo: newApplicableTo }),
   updateRules: (newRules: any) => set({ rules: newRules }),

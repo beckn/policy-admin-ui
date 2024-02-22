@@ -75,7 +75,7 @@ const CreatePolicyForm = () => {
       name: policyFormDataAndActions.policyName,
       owner: policyFormDataAndActions.policyOwner,
       description: policyFormDataAndActions.description,
-      policyDocument: policyFormDataAndActions.policyDocument,
+      policyDocuments: policyFormDataAndActions.policyDocuments,
       rules: policyFormDataAndActions.rules,
       country: policyFormDataAndActions.country,
       city: policyFormDataAndActions.city,
@@ -146,8 +146,8 @@ const CreatePolicyForm = () => {
       // policyFormDataAndActions.updatePolicyType(policyType);
       policyFormDataAndActions.updatePolicyOwner(existingFormData.owner);
       policyFormDataAndActions.updateDescription(existingFormData.description);
-      policyFormDataAndActions.updatePolicyDocument(
-        existingFormData.policyDocument
+      policyFormDataAndActions.updatepolicyDocuments(
+        existingFormData.policyDocuments
       );
       policyFormDataAndActions.updateRules(rulesJson);
       policyFormDataAndActions.updateStartDate(startDateValue);
@@ -204,7 +204,7 @@ const CreatePolicyForm = () => {
               "	media": [
                 {
                   mimetype: "application/pdf",
-                  url: presentExistingFormData.policyDocument,
+                  url: presentExistingFormData.policyDocuments,
                 },
               ],
             },
@@ -548,7 +548,7 @@ const CreatePolicyForm = () => {
                   <div className="box-btn">
                     <input
                       placeholder="Add Source URL"
-                      {...register("policyDocument", { required: true })}
+                      {...register("policyDocuments", { required: true })}
                       // onChange={(e) => handleInputChange(e)}
                     />
                     {/* TODO if the commented code is required */}

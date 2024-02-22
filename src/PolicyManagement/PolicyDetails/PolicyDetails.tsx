@@ -321,15 +321,10 @@ function PolicyDetails() {
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
                   Sources
                 </Typography>
-                <Typography
-                  variant="subtitle2"
-                  fontWeight={"400"}
-                  gutterBottom
-                  fontSize="14px"
-                  color={"#004E92"}
-                >
-                  {policyDetails.policyDocument}
-                </Typography>
+
+                <a target="_blank" href={`${policyDetails.policyDocuments}`}>
+                  {policyDetails.policyDocuments}{" "}
+                </a>
               </Box>
               <Box className="Applicable-to" width={"25%"}>
                 <Typography fontWeight={600} fontSize="14px" mb={1}>
